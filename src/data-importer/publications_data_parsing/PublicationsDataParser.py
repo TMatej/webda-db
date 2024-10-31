@@ -5,7 +5,7 @@ from common.constants import PUBLICATIONS_TABLE_NAME, SQL_FILE_SUFFIX, PUBLICATI
 from common.file_paths import DESTINATION_DATA_FOLDER_PATH, ORIGIN_PUBLICATIONS_FOLDER_PATH
 from Publication import Publication
 
-def standardize(open_file):
+def move_to_first_record(open_file):
     data_line = open_file.readline().strip()
 
     # without header
@@ -62,8 +62,8 @@ def process_single_file(filename, references_file_path, sql_stripped_data_file_p
         with open(references_file_path, 'rt') as references_file:
             print(f"Printing file content: {references_file_path}")
 
-            # standardize file as they occur in two formats
-            standardize(references_file)
+            # move the pointer to first record as files occur in two formats - with and without header
+            move_to_first_record(references_file)
 
             # create and write INSERT part of SQL insert command
             write_sql_insert_statement(sql_stripped_data_file, PUBLICATIONS_TABLE_NAME, Publication.get_table_parameters())
