@@ -1,5 +1,5 @@
-from InsertLineBuilderBase import InsertLineBuilderBase
-from constants import VALUES_COMMAND
+from common import InsertLineBuilderBase
+from common.constants import VALUES_COMMAND
 
 def insert_statement(table_name: str, table_parameters: str) -> str:
     return f"INSERT INTO {table_name} ({table_parameters})\n"

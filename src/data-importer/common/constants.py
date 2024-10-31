@@ -1,10 +1,12 @@
 PUBLICATION_FILE_SUFFIX: str = ".ref"
 SQL_FILE_SUFFIX: str = ".sql"
 
-PUBLICATIONS_DATA_FOLDER_NAME: str = "publications"
 CLUSTERS_DATA_FOLDER_NAME: str = "clusters"
 STARS_DATA_FOLDER_NAME: str = "stars"
+
+PUBLICATIONS_DATA_FOLDER_NAME: str = "publications"
 DATA_TYPES_DATA_FOLDER_NAME: str = "data-types"
+DATA_RECORDS_DATA_FOLDER_NAME: str = "data-records"
 
 NUMBERING_SYSTEM_FILE_NAME: str = "sysno.ref"
 DATA_TYPES_FILE_NAME: str = "types_to_files_to_refs.me"
@@ -22,3 +24,4 @@ PUBLICATIONS_TABLE_NAME: str = "Publications"
 CLUSTERS_TABLE_NAME: str = "Clusters"
 STARS_TABLE_NAME: str = "Stars"
 DATA_TYPES_TABLE_NAME: str = "DataTypes"
+AD2K_TYPE_TABLE_NAME: str = "CoordinatesJ2000"
