@@ -1,7 +1,7 @@
 import os
 
 from common.constants import DATA_TYPES_FILE_NAME
-from common.file_paths import ORIGIN_PUBLICATIONS_FOLDER_PATH
+from common.file_paths import DESTINATION_DATA_FOLDER_PATH
 from data_type_parsing.DataType import DataType
 from data_type_parsing.DataTypesParser import extract_data_type
 
@@ -52,7 +52,11 @@ def check_record_file_structure(open_file, data_type: DataType):
     open_file.seek(0)
 
 
-def process_record(folder_name, line: str, column_formats: [str]) -> str | None:
+def process_record(
+        folder_name: str,
+        file_name: str,
+        line: str,
+        column_formats: [str]) -> str | None:
     line_tuple = line.strip("\n").split("\t")
 
     if len(line_tuple) > len(column_formats):
@@ -61,7 +65,7 @@ def process_record(folder_name, line: str, column_formats: [str]) -> str | None:
         print(f'Number of values does not match the number of predefined columns. Expected: "{column_formats_sanitized_string}" - received: "{line_tuple_sanitized_string}". "{len(column_formats)}" - "{len(line_tuple)}".')
         raise ValueError(f'Number of values does not match the number of predefined columns. Expected: "{column_formats_sanitized_string}" - received: "{line_tuple_sanitized_string}". "{len(column_formats)}" - "{len(line_tuple)}".')
 
-    line = f"'{folder_name}'"
+    line = f"'{folder_name}', '{file_name}'"
 
     for i in range(len(column_formats)):
         line = "".join([line, ", "])
@@ -87,7 +91,7 @@ def process_record(folder_name, line: str, column_formats: [str]) -> str | None:
     return line
 
 def process_data_types() -> [DataType]:
-    source_file = os.path.join(ORIGIN_PUBLICATIONS_FOLDER_PATH, DATA_TYPES_FILE_NAME)
+    source_file = os.path.join(DESTINATION_DATA_FOLDER_PATH, DATA_TYPES_FILE_NAME)
 
     data_types: [DataType] = []
 
