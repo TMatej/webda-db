@@ -2,8 +2,8 @@ from common.InsertLineBuilderBase import InsertLineBuilderBase
 
 
 class PublicationReference(InsertLineBuilderBase):
-    def __init__(self, file_name = None, ref = None, author = None, journal = None, title = None, bibcode = None, year = None, data = None):
-        self.file_name = file_name
+    def __init__(self, ref_file_name = None, ref = None, author = None, journal = None, title = None, bibcode = None, year = None, data = None):
+        self.ref_file_name = ref_file_name          # data type name ([data_type].ref)
         self.ref = ref
         self.author = author
         self.journal = journal
@@ -14,17 +14,17 @@ class PublicationReference(InsertLineBuilderBase):
 
     def is_empty(self):
         return (
-            self.file_name is None and
-            self.ref is None and
-            self.author is None and
-            self.journal is None and
-            self.title is None and
-            self.bibcode is None and
-            self.year is None and
-            self.data is None)
+                self.ref_file_name is None and
+                self.ref is None and
+                self.author is None and
+                self.journal is None and
+                self.title is None and
+                self.bibcode is None and
+                self.year is None and
+                self.data is None)
 
     def build_insert_values_line(self) -> str:
-        sanitized_file_name = self.__sanitize_string_value__(self.file_name)
+        sanitized_ref_file_name = self.__sanitize_string_value__(self.ref_file_name)
         sanitized_ref = self.__sanitize_numeric_value__(self.ref)
         sanitized_author = self.__sanitize_string_value__(self.author)
         sanitized_journal = self.__sanitize_string_value__(self.journal)
@@ -33,8 +33,8 @@ class PublicationReference(InsertLineBuilderBase):
         sanitized_year = self.__sanitize_numeric_value__(self.year)
         # parameter data are not to be stored in db
 
-        return f"({sanitized_file_name}, {sanitized_ref}, {sanitized_title}, {sanitized_author}, {sanitized_journal}, {sanitized_year}, {sanitized_bibcode})"
+        return f"({sanitized_ref_file_name}, {sanitized_ref}, {sanitized_title}, {sanitized_author}, {sanitized_journal}, {sanitized_year}, {sanitized_bibcode})"
 
     @staticmethod
     def get_table_parameters() -> str:
-        return "Filename, Ref, Title, Author, Journal, Year, Bibcode"
+        return "RefFilename, Ref, Title, Author, Journal, Year, Bibcode"

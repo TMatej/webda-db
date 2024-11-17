@@ -122,12 +122,12 @@ def main():
 
     for data_type in data_types:
         # DATA TYPE METADATA PROCESSING
-        data_type_file_name = data_type.file_name.strip().lower()
+        data_type_file_name = data_type.ref_file_name.strip().lower()
 
         if data_type_file_name in processed_data_types_names:
             continue
 
-        data_type_table_name = data_type.file_name.strip().lower().replace(".", "_").capitalize() # TODO - make mapper for types
+        data_type_table_name = data_type.ref_file_name.strip().lower().replace(".", "_").capitalize() # TODO - make mapper for types
         columns: [str] = data_type.cols.strip().split("\\t")
         columns.insert(0, "foldername")
         data_type_table_parameters: [str] = ", ".join(map(lambda x: x.strip().lower().capitalize(), columns))

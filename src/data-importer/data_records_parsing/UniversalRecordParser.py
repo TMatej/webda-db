@@ -100,7 +100,7 @@ def main():
 
     # process data types
     data_types = process_data_types()
-    data_types.sort(key=lambda dt: dt.file_name)
+    data_types.sort(key=lambda dt: dt.ref_file_name)
 
     processed_data_types_names = []
     with open(PROCESSED_DATA_FILES_PATH, "rt") as processed_data_types_file:
@@ -117,14 +117,14 @@ def main():
 
     for data_type in data_types:
         # DATA TYPE METADATA PROCESSING
-        data_type_file_name: str = data_type.file_name.strip().lower()
+        data_type_file_name: str = data_type.ref_file_name.strip().lower()
 
         if data_type_file_name in processed_data_types_names:
             continue
 
 
 
-        data_type_table_name = data_type.file_name.strip().lower().replace(".", "_").capitalize() # TODO - make mapper for types
+        data_type_table_name = data_type.ref_file_name.strip().lower().replace(".", "_").capitalize() # TODO - make mapper for types
 
 
 
