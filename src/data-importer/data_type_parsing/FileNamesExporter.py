@@ -1,14 +1,15 @@
 import os
 
 from common.constants import DATA_TYPES_FILE_NAME, DATA_FILE_REFERENCE_FILE_NAME
-from common.file_paths import ORIGIN_PUBLICATION_REFERENCES_FOLDER_PATH
+from common.file_paths import DESTINATION_DATA_FOLDER_PATH
+
 
 def parse_value(line: str) -> str:
     return line.split("=>", 1)[1].strip(" \",\n")
 
 def main():
-    source_file = os.path.join(ORIGIN_PUBLICATION_REFERENCES_FOLDER_PATH, DATA_TYPES_FILE_NAME)
-    destination_file = os.path.join(ORIGIN_PUBLICATION_REFERENCES_FOLDER_PATH, DATA_FILE_REFERENCE_FILE_NAME)
+    source_file = os.path.join(DESTINATION_DATA_FOLDER_PATH, DATA_TYPES_FILE_NAME)
+    destination_file = os.path.join(DESTINATION_DATA_FOLDER_PATH, DATA_FILE_REFERENCE_FILE_NAME)
 
     with open(source_file, "rt") as source:
         with open(destination_file, "wt") as destination:

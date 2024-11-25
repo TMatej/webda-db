@@ -4,7 +4,7 @@ from common.InsertLineBuilderBase import InsertLineBuilderBase
 class Cluster(InsertLineBuilderBase):
     def __init__(self,
                  iau_cluster_number = None,
-                 folder_name = None,
+                 folder_name = None,            # cluster name (abbreviation)
                  name = None):
         self.iau_cluster_number = iau_cluster_number
         self.folder_name = folder_name

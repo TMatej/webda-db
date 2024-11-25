@@ -3,7 +3,7 @@ from common.InsertLineBuilderBase import InsertLineBuilderBase
 
 class ClusterParameters(InsertLineBuilderBase):
     def __init__(self,
-                 folder_name = None,
+                 folder_name = None,    # cluster name (abbreviation)
                  right_ascension = None,
                  declination = None,
                  longitude = None,

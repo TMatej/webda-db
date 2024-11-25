@@ -4,7 +4,7 @@ from common.InsertLineBuilderBase import InsertLineBuilderBase
 class DataType(InsertLineBuilderBase):
     def __init__(self,
                  abbreviation: str = None,
-                 file_name: str = None,
+                 file_name: str = None, # data type name
                  ref: str = None,
                  header: str = None,
                  format: str = None,

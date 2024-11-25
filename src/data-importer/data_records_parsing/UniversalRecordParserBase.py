@@ -1,13 +1,14 @@
 import os
 
+from common.InsertLineBuilderBase import InsertLineBuilderBase
 from common.constants import DATA_TYPES_FILE_NAME
 from common.file_paths import DESTINATION_DATA_FOLDER_PATH
 from data_type_parsing.DataType import DataType
 from data_type_parsing.DataTypesParser import extract_data_type
 
 
-def check_record_file_structure(open_file, data_type: DataType):
-    first_line = open_file.readline().strip()
+def check_record_file_structure(data_type_origin_file, data_type: DataType):
+    first_line = data_type_origin_file.readline().strip()
 
     stripped_first_line = first_line.lower()
     cols = data_type.cols.replace("\\t", "\t").lower()
@@ -49,13 +50,14 @@ def check_record_file_structure(open_file, data_type: DataType):
     #     raise ValueError(f'Second line does not match the format. Expected: "{sanitized_under}" - received: "{sanitized_stripped_second_line}".')
 
     # reset pointer to beginning
-    open_file.seek(0)
+    data_type_origin_file.seek(0)
 
 
 def process_record(
         folder_name: str,
         file_name: str,
         line: str,
+        columns: [str],
         column_formats: [str]) -> str | None:
     line_tuple = line.strip("\n").split("\t")
 
@@ -74,19 +76,27 @@ def process_record(
             line = "".join([line, "NULL"])
             continue
 
-        column_format = column_formats[i]
-        column_value = line_tuple[i].strip().replace("'", "''")
+        column_format: str = column_formats[i]
+        column_value: str = line_tuple[i].strip().replace("'", "''")
 
         # empty value -> NULL
         if len(column_value) == 0 :
             line = "".join([line, "NULL"])
             continue
 
-        # number or string value
+        if len(columns) > i:
+            column_title: str = columns[i]
+            if column_title.lower().__eq__('no'):  # adopter number consider as string and remove zeros in the beginning
+                sanitized_value = InsertLineBuilderBase.__sanitize_string_value__(column_value.lstrip("0").strip())  # some incorrect records contains whitespaces between zeros and actual number
+                line = "".join([line, sanitized_value])
+                continue
+
         if "d" in column_format or "f" in column_format:
-            line = "".join([line, column_value])
+            sanitized_value = InsertLineBuilderBase.__sanitize_numeric_value__(column_value)
+            line = "".join([line, sanitized_value])
         else:
-            line = "".join([line, "'", column_value, "'"])
+            sanitized_value = InsertLineBuilderBase.__sanitize_string_value__(column_value)
+            line = "".join([line, sanitized_value])
 
     return line
 
