@@ -26,6 +26,9 @@ ERROR_OUTPUT_FILE_NAME: str = "errors.log"
 # destination data names
 DATA_TYPES_PROCESSED_NAMES_FILE_NAME: str = "types-processed.txt"
 
+# sql
+NO_DATA_WERE_FOUND_SQL_COMMENT: str = "-- NO DATA WERE FOUND"
+
 # sql file names
 SQL_CLUSTERS_FILE_NAME: str = "clusters.sql"
 SQL_CLUSTER_PARAMETERS_FILE_NAME: str = "cluster-parameters.sql"
@@ -34,8 +37,25 @@ SQL_STAR_ALIASES_FILE_NAME: str = "star-aliases.sql"
 SQL_DATA_TYPES_FILE_NAME: str = "data-types.sql"
 SQL_PUBLICATION_REFERENCES_FILE_NAME: str = "publication-references.sql"
 
-# sql
-NO_DATA_WERE_FOUND_SQL_COMMENT: str = "-- NO DATA WERE FOUND"
+#sql column names
+SQL_ABBREVIATION_COLUMN_NAME: str = "Abbreviation"
+SQL_ADOPTED_NUMBER_COLUMN_NAME: str = "AdoptedNumber"
+SQL_ALTERNATIVE_NUMBER_COLUMN_NAME: str = "AlternativeNumber"
+SQL_AUTHOR_COLUMN_NAME: str = "Author"
+SQL_BIBCODE_COLUMN_NAME: str = "Bibcode"
+SQL_FILE_NAME_COLUMN_NAME: str = "FileName"
+SQL_FOLDER_NAME_COLUMN_NAME: str = "FolderName"
+SQL_IAU_CLUSTER_NUMBER_COLUMN_NAME: str = "IauClusterNumber"
+SQL_JOURNAL_COLUMN_NAME: str = "Journal"
+SQL_LONG_DESCRIPTION_COLUMN_NAME: str = "LongDescription"
+SQL_NAME_COLUMN_NAME: str = "Name"
+SQL_REF_FILE_NAME_COLUMN_NAME: str = "RefFileName"
+SQL_REF_NUMBER_COLUMN_NAME: str = "RefNumber"
+SQL_REF_STRING_COLUMN_NAME: str = "RefString"
+SQL_REF_STRING_SQUEEZED_COLUMN_NAME: str = "RefStringSqueezed"
+SQL_SHORT_DESCRIPTION_COLUMN_NAME: str = "ShortDescription"
+SQL_TITLE_COLUMN_NAME: str = "Title"
+SQL_YEAR_COLUMN_NAME: str = "Year"
 
 # table names
 CLUSTERS_TABLE_NAME: str = "Clusters"
