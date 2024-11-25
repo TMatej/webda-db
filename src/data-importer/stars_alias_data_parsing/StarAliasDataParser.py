@@ -49,7 +49,7 @@ def check_trans_tab_standard(open_file, column_reference_dictionary: {}):
     return True
 
 def process_ref_record(line: str, column_reference_dictionary: {}):
-    line_tuple: (str, str) = line.strip().split("\t")
+    line_tuple: (str, str) = line.split("\t")
 
     if len(line_tuple) != 2:
         column_formats_sanitized_string = "Col\tReference"
@@ -57,7 +57,13 @@ def process_ref_record(line: str, column_reference_dictionary: {}):
         print(f'Number of values does not match the number of predefined columns. Expected: "{column_formats_sanitized_string}" - received: "{line_tuple_sanitized_string}". "2" - "{len(line_tuple)}".')
         raise ValueError(f'Number of values does not match the number of predefined columns. Expected: "{column_formats_sanitized_string}" - received: "{line_tuple_sanitized_string}". "2" - "{len(line_tuple)}".')
 
-    column_reference_dictionary[line_tuple[0].lower().strip()] = line_tuple[1]
+    key = line_tuple[0].lower().strip()
+    value = line_tuple[1].strip()
+
+    if key != "" and key is not None and value != "" and value is not None:
+        column_reference_dictionary[key] = value
+    else:
+        print(f"Invalid value pair: Key: '{key}', Value: '{value}'.")
 
 def process_header_line(header_line: str) -> dict:
     reference_position_dictionary: dict = {}
