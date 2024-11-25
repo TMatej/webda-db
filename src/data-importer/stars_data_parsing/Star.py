@@ -1,4 +1,5 @@
 from common.InsertLineBuilderBase import InsertLineBuilderBase
+from common.constants import SQL_FOLDER_NAME_COLUMN_NAME, SQL_ADOPTED_NUMBER_COLUMN_NAME
 
 
 class Star(InsertLineBuilderBase):
@@ -17,4 +18,4 @@ class Star(InsertLineBuilderBase):
 
     @staticmethod
     def get_table_parameters() -> str:
-        return "Foldername, AdoptedNumber"
+        return f"{SQL_FOLDER_NAME_COLUMN_NAME}, {SQL_ADOPTED_NUMBER_COLUMN_NAME}"

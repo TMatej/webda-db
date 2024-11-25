@@ -4,9 +4,9 @@ from common.constants import SQL_FILE_SUFFIX, DATA_RECORDS_DATA_FOLDER_NAME, ERR
     NO_DATA_WERE_FOUND_SQL_COMMENT, DATA_TYPES_PROCESSED_NAMES_FILE_NAME, BUFFER_SIZE
 from common.create_sql_insert_methods import write_sql_insert_statement, write_sql_values_keyword_statement
 from common.file_paths import DESTINATION_DATA_FOLDER_PATH, CLUSTERS_ORIGIN_FOLDER_PATH
-from data_records_parsing.UniversalRecordParserBase import process_record, check_record_file_structure, \
+from UniversalRecordParserBase import process_record, check_record_file_structure, \
     process_data_types
-from data_type_parsing.DataType import DataType
+from data_types_parsing.DataType import DataType
 
 def process_records_of_data_type(
         data_type_origin_file,

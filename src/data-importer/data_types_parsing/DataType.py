@@ -1,4 +1,6 @@
 from common.InsertLineBuilderBase import InsertLineBuilderBase
+from common.constants import SQL_FILE_NAME_COLUMN_NAME, SQL_ABBREVIATION_COLUMN_NAME, SQL_REF_FILE_NAME_COLUMN_NAME, \
+    SQL_SHORT_DESCRIPTION_COLUMN_NAME, SQL_LONG_DESCRIPTION_COLUMN_NAME
 
 
 class DataType(InsertLineBuilderBase):
@@ -35,4 +37,4 @@ class DataType(InsertLineBuilderBase):
 
     @staticmethod
     def get_table_parameters() -> str:
-        return "Filename, Abbreviation, RefFileName, ShortDescription, LongDescription"
+        return f"{SQL_FILE_NAME_COLUMN_NAME}, {SQL_ABBREVIATION_COLUMN_NAME}, {SQL_REF_FILE_NAME_COLUMN_NAME}, {SQL_SHORT_DESCRIPTION_COLUMN_NAME}, {SQL_LONG_DESCRIPTION_COLUMN_NAME}"

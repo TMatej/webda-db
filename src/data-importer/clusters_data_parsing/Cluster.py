@@ -1,4 +1,5 @@
 from common.InsertLineBuilderBase import InsertLineBuilderBase
+from common.constants import SQL_FOLDER_NAME_COLUMN_NAME, SQL_NAME_COLUMN_NAME, SQL_IAU_CLUSTER_NUMBER_COLUMN_NAME
 
 
 class Cluster(InsertLineBuilderBase):
@@ -24,4 +25,4 @@ class Cluster(InsertLineBuilderBase):
 
     @staticmethod
     def get_table_parameters() -> str:
-        return "Foldername, IauClusterNumber, Name"
+        return f"{SQL_FOLDER_NAME_COLUMN_NAME}, {SQL_IAU_CLUSTER_NUMBER_COLUMN_NAME}, {SQL_NAME_COLUMN_NAME}"
