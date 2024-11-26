@@ -1,6 +1,5 @@
 from decimal import Decimal, InvalidOperation
 
-
 class InsertLineBuilderBase:
     @staticmethod
     def __sanitize_string_value__(value: str):
@@ -18,7 +17,6 @@ class InsertLineBuilderBase:
             num = str(Decimal(value.strip()))
         except InvalidOperation:
             print(f"Invalid input: '{value}' cannot convert to integer.")
-
             # some values have random "/  " with their value
             value = value.strip("/").strip()
             try:

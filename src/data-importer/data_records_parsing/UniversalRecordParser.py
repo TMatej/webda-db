@@ -1,7 +1,8 @@
 import os
 
 from common.constants import SQL_FILE_SUFFIX, DATA_RECORDS_DATA_FOLDER_NAME, ERROR_OUTPUT_FILE_NAME, \
-    NO_DATA_WERE_FOUND_SQL_COMMENT, DATA_TYPES_PROCESSED_NAMES_FILE_NAME, BUFFER_SIZE
+    NO_DATA_WERE_FOUND_SQL_COMMENT, DATA_TYPES_PROCESSED_NAMES_FILE_NAME, BUFFER_SIZE, SQL_FILE_NAME_COLUMN_NAME, \
+    SQL_FOLDER_NAME_COLUMN_NAME
 from common.create_sql_insert_methods import write_sql_insert_statement, write_sql_values_keyword_statement
 from common.file_paths import DESTINATION_DATA_FOLDER_PATH, CLUSTERS_ORIGIN_FOLDER_PATH
 from UniversalRecordParserBase import process_record, check_record_file_structure, \
@@ -67,7 +68,7 @@ def process_data_file(
         comma_shall_be_writen: [bool]):
     # return if file does not exist
     if not os.path.exists(data_type_origin_file_path):
-        print(f"FILE NOT FOUND: '{data_type_origin_file_path}'.")
+        # print(f"FILE NOT FOUND: '{data_type_origin_file_path}'.") # commented out due to effectivity of processing
         return
 
     # check that data type values are valid columns and columns formats
@@ -144,7 +145,7 @@ def main():
             return
 
         file_name, file_extension =  os.path.splitext(data_type.file_name)
-        data_type_table_name = file_name.lower().capitalize() + file_extension.lower().replace(".", "").capitalize()
+        data_type_table_name = file_name.lower() + file_extension.lower().replace(".", "_")
 
         columns: [str] = data_type.cols.strip().split("\\t")
         columns_formats: [str] = data_type.format.strip().split()
@@ -156,9 +157,11 @@ def main():
                 error_output_destination_file.write(message)
             continue
 
-        columns.insert(0, "filename")       # add origin filename to db columns
-        columns.insert(0, "foldername")     # add origin foldername to db columns
-        data_type_table_parameters: [str] = ", ".join(map(lambda x: x.strip().lower().capitalize(), columns))
+        processed_columns: list = list(map(lambda x: x.strip().lower(), columns))
+        processed_columns.insert(0, SQL_FILE_NAME_COLUMN_NAME)       # add origin filename to db columns
+        processed_columns.insert(0, SQL_FOLDER_NAME_COLUMN_NAME)     # add origin foldername to db columns
+
+        data_type_table_parameters: str = ", ".join(processed_columns)
 
         with open(data_record_destination_sql_file_path, "wt", buffering=BUFFER_SIZE) as data_record_destination_sql_file:
             # create and write INSERT part of SQL insert command

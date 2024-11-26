@@ -4,7 +4,7 @@ from common.create_sql_insert_methods import write_sql_insert_statement, write_s
 from common.constants import DATA_TYPES_FILE_NAME, DATA_TYPES_DATA_FOLDER_NAME, SQL_DATA_TYPES_FILE_NAME, \
     DATA_TYPES_TABLE_NAME, ERROR_OUTPUT_FILE_NAME, NO_DATA_WERE_FOUND_SQL_COMMENT, BUFFER_SIZE
 from common.file_paths import DESTINATION_DATA_FOLDER_PATH
-from DataType import DataType
+from data_types_parsing.DataType import DataType
 
 
 def process_abbreviation_line(line: str) -> str:

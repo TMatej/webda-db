@@ -3,8 +3,8 @@ import os
 from common.InsertLineBuilderBase import InsertLineBuilderBase
 from common.constants import DATA_TYPES_FILE_NAME
 from common.file_paths import DESTINATION_DATA_FOLDER_PATH
-from data_type_parsing.DataType import DataType
-from data_type_parsing.DataTypesParser import extract_data_type
+from data_types_parsing.DataType import DataType
+from data_types_parsing.DataTypesParser import extract_data_type
 
 
 def check_record_file_structure(data_type_origin_file, data_type: DataType):
@@ -87,7 +87,7 @@ def process_record(
         if len(columns) > i:
             column_title: str = columns[i]
             if column_title.lower().__eq__('no'):  # adopter number consider as string and remove zeros in the beginning
-                sanitized_value = InsertLineBuilderBase.__sanitize_string_value__(column_value.lstrip("0").strip())  # some incorrect records contains whitespaces between zeros and actual number
+                sanitized_value = InsertLineBuilderBase.__sanitize_adopted_number__(column_value)
                 line = "".join([line, sanitized_value])
                 continue
 
