@@ -102,10 +102,7 @@ def process_tab_record(
 
         alternative_number = line_tuple[alternative_number_position]
 
-        sanitized_adopted_number = adopted_number.strip().lstrip("0").strip()
-        sanitized_alternative_number = alternative_number.strip().lstrip("0").strip()
-
-        star_alias = StarAlias(cluster_name, sanitized_adopted_number, sanitized_alternative_number, ref_string)
+        star_alias = StarAlias(cluster_name, adopted_number, alternative_number, ref_string)
         star_aliases.append(star_alias)
 
     return star_aliases

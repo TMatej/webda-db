@@ -19,8 +19,8 @@ class StarAlias(InsertLineBuilderBase):
 
     def build_insert_values_line(self) -> str:
         sanitized_folder_name = self.__sanitize_string_value__(self.folder_name)
-        sanitized_adopted_number = self.__sanitize_string_value__(self.adopted_number)
-        sanitized_alternative_number = self.__sanitize_string_value__(self.alternative_number)
+        sanitized_adopted_number = self.__sanitize_adopted_number__(self.adopted_number)
+        sanitized_alternative_number = self.__sanitize_adopted_number__(self.alternative_number)
         sanitized_ref_string = self.__sanitize_string_value__(self.ref_string)
         sanitized_ref_string_squeezed = re.sub(r"\s+", "", sanitized_ref_string)
 

@@ -4,7 +4,7 @@ from decimal import Decimal, InvalidOperation
 class InsertLineBuilderBase:
     @staticmethod
     def __sanitize_string_value__(value: str):
-        return "NULL" if not value else "'" + value.replace("'", "''") + "'"
+        return "NULL" if not value else "'" + value.replace("'", "''").strip() + "'"
 
     @staticmethod
     def __sanitize_numeric_value__(value: str):
@@ -15,7 +15,7 @@ class InsertLineBuilderBase:
             value = value.replace("--", "-")
 
         try:
-            num = str(Decimal(value))
+            num = str(Decimal(value.strip()))
         except InvalidOperation:
             print(f"Invalid input: '{value}' cannot convert to integer.")
 
@@ -28,6 +28,11 @@ class InsertLineBuilderBase:
                 num = "NULL"
 
         return num
+
+    @staticmethod
+    def __sanitize_adopted_number__(value: str) -> str:
+        # some files contain white characters inside their adopted number
+        return InsertLineBuilderBase.__sanitize_string_value__(value.strip().replace(' ', '0'))
 
     def build_insert_values_line(self) -> str:
         return f"()"

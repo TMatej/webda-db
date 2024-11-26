@@ -94,10 +94,7 @@ def get_adopted_numbers_from_file(data_file_origin_file_path):
             else:
                 adopted_number, _ = split_line
 
-            # remove starting zeros and spaces in the middle of the number
-            sanitized_adopted_number = adopted_number.strip().lstrip("0").strip()
-
-            adopted_numbers_set.add(sanitized_adopted_number)
+            adopted_numbers_set.add(adopted_number)
 
     return adopted_numbers_set
 
@@ -158,6 +155,9 @@ def process_adopted_numbers(
 
     for adopted_star_number in sorted_adopted_star_numbers:
         star = Star(cluster_folder_name, adopted_star_number)
+
+        if star.adopted_number == "" or star.adopted_number is None:
+            continue
 
         if comma_shall_be_writen[0]:
             # write insert command to file
