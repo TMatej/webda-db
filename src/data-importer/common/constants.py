@@ -3,12 +3,13 @@ PUBLICATION_FILE_SUFFIX: str = ".ref"
 SQL_FILE_SUFFIX: str = ".sql"
 
 # destination data folder names
+ADOPTED_NUMBER_REFERENCES_FOLDER_NAME: str = "adopted-number-references"
 CLUSTERS_DATA_FOLDER_NAME: str = "clusters"
-STARS_DATA_FOLDER_NAME: str = "stars"
-STAR_ALIASES_DATA_FOLDER_NAME: str = "star-aliases"
-PUBLICATION_REFERENCES_DATA_FOLDER_NAME: str = "publication-references"
 DATA_TYPES_DATA_FOLDER_NAME: str = "data-types"
 DATA_RECORDS_DATA_FOLDER_NAME: str = "data-records"
+PUBLICATION_REFERENCES_DATA_FOLDER_NAME: str = "publication-references"
+STARS_DATA_FOLDER_NAME: str = "stars"
+STAR_ALIASES_DATA_FOLDER_NAME: str = "star-aliases"
 
 # original data names
 NUMBERING_SYSTEM_FILE_NAME: str = "sysno.ref"
@@ -30,12 +31,13 @@ DATA_TYPES_PROCESSED_NAMES_FILE_NAME: str = "types-processed.txt"
 NO_DATA_WERE_FOUND_SQL_COMMENT: str = "-- NO DATA WERE FOUND"
 
 # sql file names
+SQL_ADOPTED_NUMBER_REFERENCES_FILE_NAME: str = "adopted-number-references.sql"
 SQL_CLUSTERS_FILE_NAME: str = "clusters.sql"
 SQL_CLUSTER_PARAMETERS_FILE_NAME: str = "cluster-parameters.sql"
-SQL_STARS_FILE_NAME: str = "stars.sql"
-SQL_STAR_ALIASES_FILE_NAME: str = "star-aliases.sql"
 SQL_DATA_TYPES_FILE_NAME: str = "data-types.sql"
 SQL_PUBLICATION_REFERENCES_FILE_NAME: str = "publication-references.sql"
+SQL_STARS_FILE_NAME: str = "stars.sql"
+SQL_STAR_ALIASES_FILE_NAME: str = "star-aliases.sql"
 
 #sql column names
 SQL_ABBREVIATION_COLUMN_NAME: str = "Abbreviation"
@@ -58,6 +60,7 @@ SQL_TITLE_COLUMN_NAME: str = "Title"
 SQL_YEAR_COLUMN_NAME: str = "Year"
 
 # table names
+ADOPTED_NUMBER_REFERENCES_TABLE_NAME: str = "AdoptedNumberReferences"
 CLUSTERS_TABLE_NAME: str = "Clusters"
 CLUSTER_PARAMETERS_TABLE_NAME: str = "ClusterParameters"
 STARS_TABLE_NAME: str = "Stars"
