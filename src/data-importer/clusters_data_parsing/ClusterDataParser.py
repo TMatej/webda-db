@@ -15,16 +15,14 @@ def check_standard(open_file):
     first_data_line = open_file.readline().strip()
 
     if "Description\tParam" not in first_data_line:
-        raise ValueError("First data line does not start with 'Description'.")
+        raise ValueError("First data line does not contain 'Description\tParam'.")
 
     second_data_line = open_file.readline().strip()
 
     if "-----------\t-----" not in second_data_line:
-        raise ValueError("Second data line does not start with 'Description'.")
+        raise ValueError("Second data line does not contain '-----------\t-----'.")
 
     open_file.seek(0)
-
-    return open_file
 
 
 def process_cluster(lines: [str], folder_name: str) -> (Cluster, ClusterParameters):
