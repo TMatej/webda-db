@@ -3,7 +3,7 @@ import os
 from common.create_sql_insert_methods import write_sql_insert_statement, write_sql_values_keyword_statement, write_sql_values_data_statement
 from common.constants import PUBLICATION_REFERENCES_TABLE_NAME, PUBLICATION_FILE_SUFFIX, \
     PUBLICATION_REFERENCES_DATA_FOLDER_NAME, SQL_PUBLICATION_REFERENCES_FILE_NAME, ERROR_OUTPUT_FILE_NAME, \
-    NO_DATA_WERE_FOUND_SQL_COMMENT, BUFFER_SIZE
+    NO_DATA_WERE_FOUND_SQL_COMMENT, BUFFER_SIZE, NUMBERING_SYSTEM_FILE_NAME
 from common.file_paths import DESTINATION_DATA_FOLDER_PATH, PUBLICATION_REFERENCES_ORIGIN_FOLDER_PATH
 from PublicationReference import PublicationReference
 
@@ -26,53 +26,20 @@ def move_to_first_record(publication_references_origin_file) -> int:
     # unknown format -> raise error
     raise ValueError("Unknown file format.")
 
-def process_publication_record(file_name, lines: [str]) -> PublicationReference:
-    ref = None
-    author = None
-    journal = None
-    title = None
-    bibcode = None
-    year = None
-    data = None
-
-    for line in lines:
-        pair = line.split("\t", 1)
-
-        if len(pair) == 2:
-            key, value = pair
-        else:
-            continue
-
-        stripped_value = value.strip()
-
-        match key.lower():
-            case "ref":
-                ref = stripped_value
-            case "author":
-                author = stripped_value
-            case "journal":
-                journal = stripped_value
-            case "title":
-                title = stripped_value
-            case "bibcode":
-                bibcode = stripped_value
-            case "year":
-                year = stripped_value
-            case "data":
-                data = stripped_value
-
-    return PublicationReference(file_name, ref, author, journal, title, bibcode, year, data)
 
 def parse_key(line: str) -> str:
     return line.split("\t", 1)[0].strip(" \",\n")
 
+
 def parse_value(line: str) -> str:
     return line.split("\t", 1)[1].strip(" \",\n")
+
 
 def check_key(line: str, expected_key: str, line_number: int):
     key = parse_key(line)
     if key != expected_key:
         raise ValueError(f'Line: {line_number} - Incorrect format. Expected: "{expected_key}" - received: "{key}"')
+
 
 def extract_publication_reference(publication_references_origin_file, file_name: str, line_number: int) -> PublicationReference | None:
     ref_line = publication_references_origin_file.readline()
@@ -184,7 +151,7 @@ def main():
     publication_references_origin_folder_content = os.listdir(PUBLICATION_REFERENCES_ORIGIN_FOLDER_PATH)
     file_names = [f for f in publication_references_origin_folder_content
                   if os.path.isfile(os.path.join(PUBLICATION_REFERENCES_ORIGIN_FOLDER_PATH, f)) and
-                  f.endswith(PUBLICATION_FILE_SUFFIX) and not f.__eq__("sysno.ref")]
+                  f.endswith(PUBLICATION_FILE_SUFFIX) and not f.__eq__(NUMBERING_SYSTEM_FILE_NAME)]
 
     # destination sql file path
     publication_references_destination_sql_file_path: str = os.path.join(publication_references_destination_folder_path,
