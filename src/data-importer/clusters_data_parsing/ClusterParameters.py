@@ -59,8 +59,8 @@ class ClusterParameters(InsertLineBuilderBase):
         sanitized_distance = self.__sanitize_numeric_value__(self.distance)
         sanitized_ebv = self.__sanitize_numeric_value__(self.ebv)
         sanitized_log_age = self.__sanitize_numeric_value__(self.log_age)
-        sanitized_feh = self.__sanitize_string_value__(self.feh)
-        sanitized_radial_velocity = self.__sanitize_string_value__(self.radial_velocity)
+        sanitized_feh = self.__sanitize_numeric_value__(self.feh)
+        sanitized_radial_velocity = self.__sanitize_numeric_value__(self.radial_velocity)
         sanitized_proper_motion_ra = self.__sanitize_numeric_value__(self.proper_motion_ra)
         sanitized_proper_motion_dec = self.__sanitize_numeric_value__(self.proper_motion_dec)
 

@@ -3,13 +3,25 @@ PUBLICATION_FILE_SUFFIX: str = ".ref"
 SQL_FILE_SUFFIX: str = ".sql"
 
 # destination data folder names
+DATA_DESTINATION_FOLDER_NAME: str = "data"
+SCHEMA_DESTINATION_FOLDER_NAME: str = "schema"
+
 ADOPTED_NUMBER_REFERENCES_FOLDER_NAME: str = "adopted-number-references"
 CLUSTERS_DATA_FOLDER_NAME: str = "clusters"
 DATA_TYPES_DATA_FOLDER_NAME: str = "data-types"
 DATA_RECORDS_DATA_FOLDER_NAME: str = "data-records"
+DATA_ISOCHRONES_FOLDER_NAME: str = "isochrones"
 PUBLICATION_REFERENCES_DATA_FOLDER_NAME: str = "publication-references"
 STARS_DATA_FOLDER_NAME: str = "stars"
 STAR_ALIASES_DATA_FOLDER_NAME: str = "star-aliases"
+
+# origin folder names
+REFERENCES_ORIGIN_FOLDER_NAME: str = "references"
+CLUSTERS_ORIGIN_FOLDER_NAME: str = "ocl"
+ISOCHRONES_ORIGIN_FOLDER_NAME: str = "isochrones"
+GENEVA_FOLDER_NAME: str = "geneva"
+PADOVA_FOLDER_NAME: str = "padova"
+
 
 # original data names
 NUMBERING_SYSTEM_FILE_NAME: str = "sysno.ref"
@@ -35,11 +47,14 @@ SQL_ADOPTED_NUMBER_REFERENCES_FILE_NAME: str = "adopted-number-references.sql"
 SQL_CLUSTERS_FILE_NAME: str = "clusters.sql"
 SQL_CLUSTER_PARAMETERS_FILE_NAME: str = "cluster-parameters.sql"
 SQL_DATA_TYPES_FILE_NAME: str = "data-types.sql"
+SQL_ISOCHRONES_FILE_NAME: str = "isochrones.sql"
 SQL_PUBLICATION_REFERENCES_FILE_NAME: str = "publication-references.sql"
 SQL_STARS_FILE_NAME: str = "stars.sql"
 SQL_STAR_ALIASES_FILE_NAME: str = "star-aliases.sql"
 
 #sql column names
+
+# entities
 SQL_ABBREVIATION_COLUMN_NAME: str = "abbreviation"
 SQL_ADOPTED_NUMBER_COLUMN_NAME: str = "adopted_number"
 SQL_ALTERNATIVE_NUMBER_COLUMN_NAME: str = "alternative_number"
@@ -71,12 +86,21 @@ SQL_SHORT_DESCRIPTION_COLUMN_NAME: str = "short_description"
 SQL_TITLE_COLUMN_NAME: str = "title"
 SQL_YEAR_COLUMN_NAME: str = "year"
 
-
+## isochrones
+SQL_ISOCHRONE_TYPE_COLUMN_NAME: str = "type"
+SQL_LOGT_COLUMN_NAME: str = "log_t"
+SQL_MV_COLUMN_NAME: str = "mv"
+SQL_MBV_COLUMN_NAME: str = "mbv"
+SQL_MUB_COLUMN_NAME: str = "mub"
+SQL_MVR_COLUMN_NAME: str = "mvr"
+SQL_MVI_COLUMN_NAME: str = "mvi"
+SQL_MRI_COLUMN_NAME: str = "mri"
 
 # table names
 ADOPTED_NUMBER_REFERENCES_TABLE_NAME: str = "adopted_number_references"
 CLUSTERS_TABLE_NAME: str = "clusters"
 CLUSTER_PARAMETERS_TABLE_NAME: str = "cluster_parameters"
+ISOCHRONES_TABLE_NAME: str = "isochrones"
 STARS_TABLE_NAME: str = "stars"
 STAR_ALIASES_TABLE_NAME: str = "star_aliases"
 PUBLICATION_REFERENCES_TABLE_NAME: str = "publication_references"

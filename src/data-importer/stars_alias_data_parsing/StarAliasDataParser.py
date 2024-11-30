@@ -2,8 +2,9 @@ import os
 
 from common.create_sql_insert_methods import write_sql_insert_statement, write_sql_values_keyword_statement, write_sql_values_data_statement
 from common.constants import SQL_STAR_ALIASES_FILE_NAME, STAR_ALIASES_DATA_FOLDER_NAME, TRANS_TAB_FILE, TRANS_REF_FILE, \
-    STAR_ALIASES_TABLE_NAME, ERROR_OUTPUT_FILE_NAME, NO_DATA_WERE_FOUND_SQL_COMMENT, BUFFER_SIZE
-from common.file_paths import CLUSTERS_ORIGIN_FOLDER_PATH, DESTINATION_DATA_FOLDER_PATH
+    STAR_ALIASES_TABLE_NAME, ERROR_OUTPUT_FILE_NAME, NO_DATA_WERE_FOUND_SQL_COMMENT, BUFFER_SIZE, \
+    CLUSTERS_ORIGIN_FOLDER_NAME, DATA_DESTINATION_FOLDER_NAME
+from common.file_paths import ORIGIN_FOLDER_PATH, DESTINATION_FOLDER_PATH
 from StarAlias import StarAlias
 
 def check_trans_ref_standard(open_file):
@@ -227,7 +228,7 @@ def process_trans_tab_file(
 
 def main():
     # check folder path existence and create folder on path if it does not exist yet
-    star_aliases_destination_folder_path: str = os.path.join(DESTINATION_DATA_FOLDER_PATH, STAR_ALIASES_DATA_FOLDER_NAME)
+    star_aliases_destination_folder_path: str = os.path.join(DESTINATION_FOLDER_PATH, DATA_DESTINATION_FOLDER_NAME, STAR_ALIASES_DATA_FOLDER_NAME)
     if not os.path.exists(star_aliases_destination_folder_path):
         os.makedirs(star_aliases_destination_folder_path, exist_ok=True)
 
@@ -237,8 +238,9 @@ def main():
     with open(error_output_destination_file_path, "wt") as _:
         print(f"Cleaning error file '{error_output_destination_file_path}'.")
 
-    clusters_origin_folder_content = os.listdir(CLUSTERS_ORIGIN_FOLDER_PATH)
-    cluster_folder_names = [f for f in clusters_origin_folder_content if os.path.isdir(os.path.join(CLUSTERS_ORIGIN_FOLDER_PATH, f))]
+    clusters_origin_folder_path: str = os.path.join(ORIGIN_FOLDER_PATH, CLUSTERS_ORIGIN_FOLDER_NAME)
+    clusters_origin_folder_content = os.listdir(clusters_origin_folder_path)
+    cluster_folder_names = [f for f in clusters_origin_folder_content if os.path.isdir(os.path.join(clusters_origin_folder_path, f))]
 
     # destination sql file path
     star_aliases_destination_sql_file_path: str = os.path.join(star_aliases_destination_folder_path,
@@ -263,7 +265,7 @@ def main():
 
         # per each cluster
         for cluster_folder_name in cluster_folder_names:
-            trans_ref_origin_file_path: str = os.path.join(CLUSTERS_ORIGIN_FOLDER_PATH, cluster_folder_name, TRANS_REF_FILE)
+            trans_ref_origin_file_path: str = os.path.join(clusters_origin_folder_path, cluster_folder_name, TRANS_REF_FILE)
 
             column_reference_dictionary = process_trans_ref_file(trans_ref_origin_file_path, error_output_destination_file_path)
 
@@ -271,7 +273,7 @@ def main():
             if column_reference_dictionary is None:
                 continue
 
-            trans_tab_origin_file_path: str = os.path.join(CLUSTERS_ORIGIN_FOLDER_PATH, cluster_folder_name, TRANS_TAB_FILE)
+            trans_tab_origin_file_path: str = os.path.join(clusters_origin_folder_path, cluster_folder_name, TRANS_TAB_FILE)
 
             # existence of trans ref file indicates existence of trans tab file
             if not os.path.exists(trans_tab_origin_file_path):

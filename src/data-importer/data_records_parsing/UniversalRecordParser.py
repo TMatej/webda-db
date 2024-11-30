@@ -2,9 +2,9 @@ import os
 
 from common.constants import SQL_FILE_SUFFIX, DATA_RECORDS_DATA_FOLDER_NAME, ERROR_OUTPUT_FILE_NAME, \
     NO_DATA_WERE_FOUND_SQL_COMMENT, DATA_TYPES_PROCESSED_NAMES_FILE_NAME, BUFFER_SIZE, SQL_FILE_NAME_COLUMN_NAME, \
-    SQL_FOLDER_NAME_COLUMN_NAME
+    SQL_FOLDER_NAME_COLUMN_NAME, CLUSTERS_ORIGIN_FOLDER_NAME, DATA_DESTINATION_FOLDER_NAME
 from common.create_sql_insert_methods import write_sql_insert_statement, write_sql_values_keyword_statement
-from common.file_paths import DESTINATION_DATA_FOLDER_PATH, CLUSTERS_ORIGIN_FOLDER_PATH
+from common.file_paths import ORIGIN_FOLDER_PATH, DESTINATION_FOLDER_PATH
 from UniversalRecordParserBase import process_record, check_record_file_structure, \
     process_data_types
 from data_types_parsing.DataType import DataType
@@ -101,7 +101,7 @@ def process_data_file(
 
 def main():
     # check folder path existence and create folder on path if it does not exist yet
-    data_records_destination_folder_path: str = os.path.join(DESTINATION_DATA_FOLDER_PATH, DATA_RECORDS_DATA_FOLDER_NAME)
+    data_records_destination_folder_path: str = os.path.join(DESTINATION_FOLDER_PATH, DATA_DESTINATION_FOLDER_NAME, DATA_RECORDS_DATA_FOLDER_NAME)
     if not os.path.exists(data_records_destination_folder_path):
         os.makedirs(data_records_destination_folder_path, exist_ok=True)
 
@@ -110,8 +110,9 @@ def main():
     with open(error_output_destination_file_path, "wt") as _:
         print(f"Cleaning error file '{error_output_destination_file_path}'.")
 
-    clusters_origin_folder_content = os.listdir(CLUSTERS_ORIGIN_FOLDER_PATH)
-    cluster_folder_names = [f for f in clusters_origin_folder_content if os.path.isdir(os.path.join(CLUSTERS_ORIGIN_FOLDER_PATH, f))]
+    clusters_origin_folder_path: str = os.path.join(ORIGIN_FOLDER_PATH, CLUSTERS_ORIGIN_FOLDER_NAME)
+    clusters_origin_folder_content = os.listdir(clusters_origin_folder_path)
+    cluster_folder_names = [f for f in clusters_origin_folder_content if os.path.isdir(os.path.join(clusters_origin_folder_path, f))]
 
     # process data types
     data_types = process_data_types()
@@ -175,7 +176,7 @@ def main():
             # process the data records of type for each cluster
             for cluster_folder_name in cluster_folder_names:
                 # source file path
-                data_type_origin_file_path = os.path.join(CLUSTERS_ORIGIN_FOLDER_PATH, cluster_folder_name,
+                data_type_origin_file_path = os.path.join(clusters_origin_folder_path, cluster_folder_name,
                                                             data_type_file_name)
 
                 # process the data file

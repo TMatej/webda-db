@@ -3,8 +3,9 @@ import os
 from common.create_sql_insert_methods import write_sql_insert_statement, write_sql_values_keyword_statement, write_sql_values_data_statement
 from common.constants import PUBLICATION_REFERENCES_TABLE_NAME, PUBLICATION_FILE_SUFFIX, \
     PUBLICATION_REFERENCES_DATA_FOLDER_NAME, SQL_PUBLICATION_REFERENCES_FILE_NAME, ERROR_OUTPUT_FILE_NAME, \
-    NO_DATA_WERE_FOUND_SQL_COMMENT, BUFFER_SIZE, NUMBERING_SYSTEM_FILE_NAME
-from common.file_paths import DESTINATION_DATA_FOLDER_PATH, PUBLICATION_REFERENCES_ORIGIN_FOLDER_PATH
+    NO_DATA_WERE_FOUND_SQL_COMMENT, BUFFER_SIZE, NUMBERING_SYSTEM_FILE_NAME, DATA_DESTINATION_FOLDER_NAME, \
+    REFERENCES_ORIGIN_FOLDER_NAME
+from common.file_paths import DESTINATION_FOLDER_PATH, ORIGIN_FOLDER_PATH
 from PublicationReference import PublicationReference
 
 def move_to_first_record(publication_references_origin_file) -> int:
@@ -139,7 +140,7 @@ def process_publication_references_file(
 # these are references to publications not publications itself CHECK !!!
 def main():
     # check folder path existence and create folder on path if it does not exist yet
-    publication_references_destination_folder_path: str = os.path.join(DESTINATION_DATA_FOLDER_PATH, PUBLICATION_REFERENCES_DATA_FOLDER_NAME)
+    publication_references_destination_folder_path: str = os.path.join(DESTINATION_FOLDER_PATH, DATA_DESTINATION_FOLDER_NAME, PUBLICATION_REFERENCES_DATA_FOLDER_NAME)
     if not os.path.exists(publication_references_destination_folder_path):
         os.makedirs(publication_references_destination_folder_path, exist_ok=True)
 
@@ -148,9 +149,10 @@ def main():
     with open(error_output_destination_file_path, "wt") as _:
         print(f"Cleaning error file '{error_output_destination_file_path}'.")
 
-    publication_references_origin_folder_content = os.listdir(PUBLICATION_REFERENCES_ORIGIN_FOLDER_PATH)
+    publication_references_origin_folder_path: str = os.path.join(ORIGIN_FOLDER_PATH, REFERENCES_ORIGIN_FOLDER_NAME)
+    publication_references_origin_folder_content = os.listdir(publication_references_origin_folder_path)
     file_names = [f for f in publication_references_origin_folder_content
-                  if os.path.isfile(os.path.join(PUBLICATION_REFERENCES_ORIGIN_FOLDER_PATH, f)) and
+                  if os.path.isfile(os.path.join(publication_references_origin_folder_path, f)) and
                   f.endswith(PUBLICATION_FILE_SUFFIX) and not f.__eq__(NUMBERING_SYSTEM_FILE_NAME)]
 
     # destination sql file path
@@ -175,7 +177,7 @@ def main():
         write_sql_values_keyword_statement(publication_references_destination_sql_file)
 
         for file_name in file_names:
-            publication_references_origin_file_path = os.path.join(PUBLICATION_REFERENCES_ORIGIN_FOLDER_PATH, file_name)
+            publication_references_origin_file_path = os.path.join(publication_references_origin_folder_path, file_name)
 
             process_publication_references_file(
                 publication_references_origin_file_path,

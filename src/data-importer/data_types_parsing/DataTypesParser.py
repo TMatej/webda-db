@@ -2,8 +2,9 @@ import os
 
 from common.create_sql_insert_methods import write_sql_insert_statement, write_sql_values_keyword_statement, write_sql_values_data_statement
 from common.constants import DATA_TYPES_FILE_NAME, DATA_TYPES_DATA_FOLDER_NAME, SQL_DATA_TYPES_FILE_NAME, \
-    DATA_TYPES_TABLE_NAME, ERROR_OUTPUT_FILE_NAME, NO_DATA_WERE_FOUND_SQL_COMMENT, BUFFER_SIZE
-from common.file_paths import DESTINATION_DATA_FOLDER_PATH
+    DATA_TYPES_TABLE_NAME, ERROR_OUTPUT_FILE_NAME, NO_DATA_WERE_FOUND_SQL_COMMENT, BUFFER_SIZE, \
+    DATA_DESTINATION_FOLDER_NAME
+from common.file_paths import DESTINATION_FOLDER_PATH
 from data_types_parsing.DataType import DataType
 
 
@@ -93,7 +94,8 @@ def process_data_types_file(
 
 def main():
     # check folder path existence and create folder on path if it does not exist yet
-    data_types_destination_folder_path: str = os.path.join(DESTINATION_DATA_FOLDER_PATH, DATA_TYPES_DATA_FOLDER_NAME)
+    destination_folder_path: str = os.path.join(DESTINATION_FOLDER_PATH, DATA_DESTINATION_FOLDER_NAME)
+    data_types_destination_folder_path: str = os.path.join(destination_folder_path, DATA_TYPES_DATA_FOLDER_NAME)
     if not os.path.exists(data_types_destination_folder_path):
         os.makedirs(data_types_destination_folder_path, exist_ok=True)
 
@@ -103,7 +105,7 @@ def main():
         print(f"Cleaning error file '{error_output_destination_file_path}'.")
 
     # origin file path
-    data_types_origin_file_path: str = os.path.join(DESTINATION_DATA_FOLDER_PATH, DATA_TYPES_FILE_NAME)
+    data_types_origin_file_path: str = os.path.join(destination_folder_path, DATA_TYPES_FILE_NAME)
 
     # destination sql file path
     data_types_destination_sql_file_path: str = os.path.join(data_types_destination_folder_path, SQL_DATA_TYPES_FILE_NAME)

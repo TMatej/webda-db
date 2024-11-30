@@ -3,8 +3,8 @@ import os
 from common.create_sql_insert_methods import write_sql_insert_statement, write_sql_values_keyword_statement, write_sql_values_data_statement
 from common.constants import STARS_TABLE_NAME, DATA_FILE_REFERENCE_FILE_NAME, SQL_STARS_FILE_NAME, \
     STARS_DATA_FOLDER_NAME, NO_DATA_WERE_FOUND_SQL_COMMENT, \
-    ERROR_OUTPUT_FILE_NAME, BUFFER_SIZE
-from common.file_paths import CLUSTERS_ORIGIN_FOLDER_PATH, DESTINATION_DATA_FOLDER_PATH
+    ERROR_OUTPUT_FILE_NAME, BUFFER_SIZE, CLUSTERS_ORIGIN_FOLDER_NAME, DATA_DESTINATION_FOLDER_NAME
+from common.file_paths import ORIGIN_FOLDER_PATH, DESTINATION_FOLDER_PATH
 from Star import Star
 
 def check_standard(data_file_origin_file):
@@ -105,7 +105,7 @@ def get_adopted_numbers(
 
     # get all files in folder that correspond to data types names
     for data_file_name in data_files_names_set:
-        data_file_origin_file_path = os.path.join(CLUSTERS_ORIGIN_FOLDER_PATH, cluster_folder_name, data_file_name)
+        data_file_origin_file_path = os.path.join(ORIGIN_FOLDER_PATH, CLUSTERS_ORIGIN_FOLDER_NAME, cluster_folder_name, data_file_name)
 
         # if file does not exist
         if not os.path.exists(data_file_origin_file_path):
@@ -170,7 +170,7 @@ def process_adopted_numbers(
 
 def main():
     # check folder path existence and create folder on path if it does not exist yet
-    stars_destination_sql_folder_path: str = os.path.join(DESTINATION_DATA_FOLDER_PATH, STARS_DATA_FOLDER_NAME)
+    stars_destination_sql_folder_path: str = os.path.join(DESTINATION_FOLDER_PATH, DATA_DESTINATION_FOLDER_NAME, STARS_DATA_FOLDER_NAME)
     if not os.path.exists(stars_destination_sql_folder_path):
         os.makedirs(stars_destination_sql_folder_path, exist_ok=True)
 
@@ -180,8 +180,9 @@ def main():
     with open(error_output_destination_file_path, "wt") as _:
         print(f"Cleaning error file '{error_output_destination_file_path}'.")
 
-    clusters_origin_folder_content = os.listdir(CLUSTERS_ORIGIN_FOLDER_PATH)
-    cluster_folder_names = [f for f in clusters_origin_folder_content if os.path.isdir(os.path.join(CLUSTERS_ORIGIN_FOLDER_PATH, f))]
+    clusters_origin_folder_path: str = os.path.join(ORIGIN_FOLDER_PATH, CLUSTERS_ORIGIN_FOLDER_NAME)
+    clusters_origin_folder_content = os.listdir(clusters_origin_folder_path)
+    cluster_folder_names = [f for f in clusters_origin_folder_content if os.path.isdir(os.path.join(clusters_origin_folder_path, f))]
 
     # destination sql file path
     stars_destination_sql_file_path: str = os.path.join(stars_destination_sql_folder_path, SQL_STARS_FILE_NAME)
@@ -195,7 +196,7 @@ def main():
     cluster_folder_names.sort()
 
     # get all data types names
-    data_file_reference_file_source_path: str = os.path.join(DESTINATION_DATA_FOLDER_PATH, DATA_FILE_REFERENCE_FILE_NAME)
+    data_file_reference_file_source_path: str = os.path.join(DESTINATION_FOLDER_PATH, DATA_DESTINATION_FOLDER_NAME, DATA_FILE_REFERENCE_FILE_NAME)
     data_files_names_set: [str] = get_data_types_names(data_file_reference_file_source_path)
 
     # CHECK
@@ -219,7 +220,7 @@ def main():
             adopted_star_numbers: [] = set()
 
             for data_file_name in data_files_names_set:
-                data_origin_file_path = os.path.join(CLUSTERS_ORIGIN_FOLDER_PATH, cluster_folder_name, data_file_name)
+                data_origin_file_path = os.path.join(clusters_origin_folder_path, cluster_folder_name, data_file_name)
                 adopted_star_numbers_from_file = get_adopted_numbers_from_file(data_origin_file_path)
                 adopted_star_numbers = adopted_star_numbers.union(adopted_star_numbers_from_file)
 
