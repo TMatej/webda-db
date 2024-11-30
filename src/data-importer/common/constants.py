@@ -25,8 +25,8 @@ PADOVA_FOLDER_NAME: str = "padova"
 
 # original data names
 NUMBERING_SYSTEM_FILE_NAME: str = "sysno.ref"
-DATA_TYPES_FILE_NAME: str = "types_to_files_to_refs.me"
-DATA_FILE_REFERENCE_FILE_NAME: str = "data_types_file_names.list"
+DATA_TYPES_FILE_NAME: str = "types_to_files_to_refs.txt"
+DATA_FILE_REFERENCE_FILE_NAME: str = "data_types_file_names.txt"
 CLUSTER_PARAMETERS_FILE_NAME: str = "dias.dat"
 
 # original data file names
