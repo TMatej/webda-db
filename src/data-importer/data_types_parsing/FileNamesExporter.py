@@ -1,7 +1,7 @@
 import os
 
 from common.constants import DATA_TYPES_FILE_NAME, DATA_FILE_REFERENCE_FILE_NAME
-from common.file_paths import DESTINATION_DATA_FOLDER_PATH
+from common.folder_paths import DESTINATION_DATA_FOLDER_PATH
 
 
 def parse_value(line: str) -> str:

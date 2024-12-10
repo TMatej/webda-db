@@ -1,6 +1,7 @@
 from common.InsertLineBuilderBase import InsertLineBuilderBase
 import re
 
+from common.Sanitizer import Sanitizer
 from common.constants import SQL_FOLDER_NAME_COLUMN_NAME, SQL_ADOPTED_NUMBER_COLUMN_NAME, \
     SQL_ALTERNATIVE_NUMBER_COLUMN_NAME, SQL_REF_STRING_COLUMN_NAME, SQL_REF_STRING_SQUEEZED_COLUMN_NAME
 
@@ -18,10 +19,10 @@ class StarAlias(InsertLineBuilderBase):
         self.ref_string = ref_string
 
     def build_insert_values_line(self) -> str:
-        sanitized_folder_name = self.__sanitize_string_value__(self.folder_name)
-        sanitized_adopted_number = self.__sanitize_adopted_number__(self.adopted_number)
-        sanitized_alternative_number = self.__sanitize_adopted_number__(self.alternative_number)
-        sanitized_ref_string = self.__sanitize_string_value__(self.ref_string)
+        sanitized_folder_name = Sanitizer.__sanitize_string_value__(self.folder_name)
+        sanitized_adopted_number = Sanitizer.__sanitize_adopted_number__(self.adopted_number)
+        sanitized_alternative_number = Sanitizer.__sanitize_adopted_number__(self.alternative_number)
+        sanitized_ref_string = Sanitizer.__sanitize_string_value__(self.ref_string)
         sanitized_ref_string_squeezed = re.sub(r"\s+", "", sanitized_ref_string)
 
         return  f"({sanitized_folder_name}, {sanitized_adopted_number}, {sanitized_alternative_number}, {sanitized_ref_string}, {sanitized_ref_string_squeezed})"

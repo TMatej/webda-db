@@ -4,7 +4,7 @@ from common.constants import SQL_FILE_SUFFIX, DATA_RECORDS_DATA_FOLDER_NAME, ERR
     NO_DATA_WERE_FOUND_SQL_COMMENT, DATA_TYPES_PROCESSED_NAMES_FILE_NAME, BUFFER_SIZE, SQL_FILE_NAME_COLUMN_NAME, \
     SQL_FOLDER_NAME_COLUMN_NAME, CLUSTERS_ORIGIN_FOLDER_NAME, DATA_DESTINATION_FOLDER_NAME
 from common.create_sql_insert_methods import write_sql_insert_statement, write_sql_values_keyword_statement
-from common.file_paths import ORIGIN_FOLDER_PATH, DESTINATION_FOLDER_PATH
+from common.folder_paths import ORIGIN_FOLDER_PATH, DESTINATION_FOLDER_PATH
 from UniversalRecordParserBase import process_record, check_record_file_structure, \
     process_data_types
 from data_types_parsing.DataType import DataType

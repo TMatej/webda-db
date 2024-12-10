@@ -2,7 +2,7 @@ import os
 
 from common.InsertLineBuilderBase import InsertLineBuilderBase
 from common.constants import DATA_TYPES_FILE_NAME
-from common.file_paths import DESTINATION_DATA_FOLDER_PATH
+from common.folder_paths import DESTINATION_DATA_FOLDER_PATH
 from data_types_parsing.DataType import DataType
 from data_types_parsing.DataTypesParser import extract_data_type
 

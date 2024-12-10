@@ -1,4 +1,5 @@
 from common.InsertLineBuilderBase import InsertLineBuilderBase
+from common.Sanitizer import Sanitizer
 from common.constants import SQL_REF_FILE_NAME_COLUMN_NAME, SQL_REF_STRING_COLUMN_NAME, SQL_REF_NUMBER_COLUMN_NAME, \
     SQL_BIBCODE_COLUMN_NAME, SQL_TITLE_COLUMN_NAME, SQL_AUTHOR_COLUMN_NAME, SQL_JOURNAL_COLUMN_NAME, \
     SQL_YEAR_COLUMN_NAME
@@ -36,13 +37,13 @@ class PublicationReference(InsertLineBuilderBase):
                 self.data is None)
 
     def build_insert_values_line(self) -> str:
-        sanitized_ref_file_name = self.__sanitize_string_value__(self.ref_file_name)
-        sanitized_ref_number = self.__sanitize_numeric_value__(self.ref_number)
-        sanitized_author = self.__sanitize_string_value__(self.author)
-        sanitized_journal = self.__sanitize_string_value__(self.journal)
-        sanitized_title = self.__sanitize_string_value__(self.title)
-        sanitized_bibcode = self.__sanitize_string_value__(self.bibcode)
-        sanitized_year = self.__sanitize_numeric_value__(self.year)
+        sanitized_ref_file_name = Sanitizer.__sanitize_string_value__(self.ref_file_name)
+        sanitized_ref_number = Sanitizer.__sanitize_numeric_value__(self.ref_number)
+        sanitized_author = Sanitizer.__sanitize_string_value__(self.author)
+        sanitized_journal = Sanitizer.__sanitize_string_value__(self.journal)
+        sanitized_title = Sanitizer.__sanitize_string_value__(self.title)
+        sanitized_bibcode = Sanitizer.__sanitize_string_value__(self.bibcode)
+        sanitized_year = Sanitizer.__sanitize_numeric_value__(self.year)
         # parameter data are not to be stored in db
 
         return f"({sanitized_ref_file_name}, {sanitized_ref_number}, {sanitized_title}, {sanitized_author}, {sanitized_journal}, {sanitized_year}, {sanitized_bibcode})"

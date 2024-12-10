@@ -4,7 +4,7 @@ from common.create_sql_insert_methods import write_sql_insert_statement, write_s
 from common.constants import SQL_STAR_ALIASES_FILE_NAME, STAR_ALIASES_DATA_FOLDER_NAME, TRANS_TAB_FILE, TRANS_REF_FILE, \
     STAR_ALIASES_TABLE_NAME, ERROR_OUTPUT_FILE_NAME, NO_DATA_WERE_FOUND_SQL_COMMENT, BUFFER_SIZE, \
     CLUSTERS_ORIGIN_FOLDER_NAME, DATA_DESTINATION_FOLDER_NAME
-from common.file_paths import ORIGIN_FOLDER_PATH, DESTINATION_FOLDER_PATH
+from common.folder_paths import ORIGIN_FOLDER_PATH, DESTINATION_FOLDER_PATH
 from StarAlias import StarAlias
 
 def check_trans_ref_standard(open_file):

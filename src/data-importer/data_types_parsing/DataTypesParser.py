@@ -4,7 +4,7 @@ from common.create_sql_insert_methods import write_sql_insert_statement, write_s
 from common.constants import DATA_TYPES_FILE_NAME, DATA_TYPES_DATA_FOLDER_NAME, SQL_DATA_TYPES_FILE_NAME, \
     DATA_TYPES_TABLE_NAME, ERROR_OUTPUT_FILE_NAME, NO_DATA_WERE_FOUND_SQL_COMMENT, BUFFER_SIZE, \
     DATA_DESTINATION_FOLDER_NAME
-from common.file_paths import DESTINATION_FOLDER_PATH
+from common.folder_paths import DESTINATION_FOLDER_PATH
 from data_types_parsing.DataType import DataType
 
 
@@ -33,8 +33,8 @@ def extract_data_type(data_types_origin_file) -> DataType | None:
     fttbl_line = data_types_origin_file.readline()
     cols_line = data_types_origin_file.readline()
     under_line = data_types_origin_file.readline()
-    long_description_line = data_types_origin_file.readline()
-    short_description_line = data_types_origin_file.readline()
+    description_line = data_types_origin_file.readline()
+    name_line = data_types_origin_file.readline() # title
 
     abbreviation = process_abbreviation_line(first_line)
     data_file = parse_value(file_line)
@@ -44,8 +44,8 @@ def extract_data_type(data_types_origin_file) -> DataType | None:
     fttbl = parse_value(fttbl_line)
     cols = parse_value(cols_line)
     under = parse_value(under_line)
-    long_description = parse_value(long_description_line)
-    short_description = parse_value(short_description_line)
+    long_description = parse_value(description_line)
+    short_description = parse_value(name_line)
 
     line = data_types_origin_file.readline().strip()
 

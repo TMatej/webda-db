@@ -1,4 +1,5 @@
 from common.InsertLineBuilderBase import InsertLineBuilderBase
+from common.Sanitizer import Sanitizer
 from common.constants import SQL_FOLDER_NAME_COLUMN_NAME, SQL_ADOPTED_NUMBER_COLUMN_NAME
 
 
@@ -11,8 +12,8 @@ class Star(InsertLineBuilderBase):
         self.adopted_number = adopted_number
 
     def build_insert_values_line(self) -> str:
-        sanitized_folder_name = self.__sanitize_string_value__(self.folder_name)
-        sanitized_adopted_number = self.__sanitize_adopted_number__(self.adopted_number)
+        sanitized_folder_name = Sanitizer.__sanitize_string_value__(self.folder_name)
+        sanitized_adopted_number = Sanitizer.__sanitize_adopted_number__(self.adopted_number)
 
         return  f"({sanitized_folder_name}, {sanitized_adopted_number})"
 

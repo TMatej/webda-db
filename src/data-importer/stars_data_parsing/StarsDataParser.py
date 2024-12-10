@@ -4,7 +4,7 @@ from common.create_sql_insert_methods import write_sql_insert_statement, write_s
 from common.constants import STARS_TABLE_NAME, DATA_FILE_REFERENCE_FILE_NAME, SQL_STARS_FILE_NAME, \
     STARS_DATA_FOLDER_NAME, NO_DATA_WERE_FOUND_SQL_COMMENT, \
     ERROR_OUTPUT_FILE_NAME, BUFFER_SIZE, CLUSTERS_ORIGIN_FOLDER_NAME, DATA_DESTINATION_FOLDER_NAME
-from common.file_paths import ORIGIN_FOLDER_PATH, DESTINATION_FOLDER_PATH
+from common.folder_paths import ORIGIN_FOLDER_PATH, DESTINATION_FOLDER_PATH
 from Star import Star
 
 def check_standard(data_file_origin_file):
