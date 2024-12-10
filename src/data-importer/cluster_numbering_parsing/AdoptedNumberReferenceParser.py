@@ -2,7 +2,7 @@ import os
 
 from common.create_sql_insert_methods import write_sql_insert_statement, write_sql_values_keyword_statement, write_sql_values_data_statement
 from common.constants import NO_DATA_WERE_FOUND_SQL_COMMENT, ERROR_OUTPUT_FILE_NAME, BUFFER_SIZE, \
-    ADOPTED_NUMBER_REFERENCES_FOLDER_NAME, SQL_ADOPTED_NUMBER_REFERENCES_FILE_NAME, \
+    CLUSTER_NUMBERINGS_FOLDER_NAME, SQL_CLUSTER_NUMBERINGS_FILE_NAME, \
     NUMBERING_SYSTEM_FILE_NAME, CLUSTER_NUMBERINGS_TABLE_NAME, DATA_DESTINATION_FOLDER_NAME, \
     REFERENCES_ORIGIN_FOLDER_NAME
 from common.folder_paths import DESTINATION_FOLDER_PATH, ORIGIN_FOLDER_PATH
@@ -130,7 +130,7 @@ def process_numbering_system_data_file(
 
 def main():
     # check folder path existence and create folder on path if it does not exist yet
-    adopted_numbers_reference_destination_sql_folder_path: str = os.path.join(DESTINATION_FOLDER_PATH, DATA_DESTINATION_FOLDER_NAME, ADOPTED_NUMBER_REFERENCES_FOLDER_NAME)
+    adopted_numbers_reference_destination_sql_folder_path: str = os.path.join(DESTINATION_FOLDER_PATH, DATA_DESTINATION_FOLDER_NAME, CLUSTER_NUMBERINGS_FOLDER_NAME)
     if not os.path.exists(adopted_numbers_reference_destination_sql_folder_path):
         os.makedirs(adopted_numbers_reference_destination_sql_folder_path, exist_ok=True)
 
@@ -144,7 +144,7 @@ def main():
     numbering_system_origin_file_path = os.path.join(ORIGIN_FOLDER_PATH, REFERENCES_ORIGIN_FOLDER_NAME, NUMBERING_SYSTEM_FILE_NAME)
 
     # destination sql file path
-    adopted_numbers_reference_destination_sql_file_path: str = os.path.join(adopted_numbers_reference_destination_sql_folder_path, SQL_ADOPTED_NUMBER_REFERENCES_FILE_NAME)
+    adopted_numbers_reference_destination_sql_file_path: str = os.path.join(adopted_numbers_reference_destination_sql_folder_path, SQL_CLUSTER_NUMBERINGS_FILE_NAME)
 
     # CHECK
     if not os.path.exists(numbering_system_origin_file_path):
