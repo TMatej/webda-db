@@ -3,7 +3,7 @@ import os
 from common.create_sql_insert_methods import write_sql_insert_statement, write_sql_values_keyword_statement, write_sql_values_data_statement
 from common.constants import NO_DATA_WERE_FOUND_SQL_COMMENT, ERROR_OUTPUT_FILE_NAME, BUFFER_SIZE, \
     ADOPTED_NUMBER_REFERENCES_FOLDER_NAME, SQL_ADOPTED_NUMBER_REFERENCES_FILE_NAME, \
-    NUMBERING_SYSTEM_FILE_NAME, ADOPTED_NUMBER_REFERENCES_TABLE_NAME, DATA_DESTINATION_FOLDER_NAME, \
+    NUMBERING_SYSTEM_FILE_NAME, CLUSTER_NUMBERINGS_TABLE_NAME, DATA_DESTINATION_FOLDER_NAME, \
     REFERENCES_ORIGIN_FOLDER_NAME
 from common.folder_paths import DESTINATION_FOLDER_PATH, ORIGIN_FOLDER_PATH
 from AdoptedNumberReference import AdoptedNumberReference
@@ -157,7 +157,7 @@ def main():
     with open(adopted_numbers_reference_destination_sql_file_path, "wt", buffering=BUFFER_SIZE) as adopted_numbers_reference_destination_sql_file:
         # create and write INSERT part of SQL insert command
         adopted_numbers_references_table_parameters = AdoptedNumberReference.get_table_parameters()
-        write_sql_insert_statement(adopted_numbers_reference_destination_sql_file, ADOPTED_NUMBER_REFERENCES_TABLE_NAME,
+        write_sql_insert_statement(adopted_numbers_reference_destination_sql_file, CLUSTER_NUMBERINGS_TABLE_NAME,
                                    adopted_numbers_references_table_parameters)
 
         # create and write VALUES keyword of SQL insert command

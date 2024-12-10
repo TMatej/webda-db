@@ -100,14 +100,14 @@ SQL_MVI_COLUMN_NAME: str = "mvi"
 SQL_MRI_COLUMN_NAME: str = "mri"
 
 # table names
-ADOPTED_NUMBER_REFERENCES_TABLE_NAME: str = "adopted_number_references"
-CLUSTERS_TABLE_NAME: str = "clusters"
+CLUSTER_NUMBERINGS_TABLE_NAME: str = "cluster_numberings"
 CLUSTER_PARAMETERS_TABLE_NAME: str = "cluster_parameters"
-ISOCHRONES_TABLE_NAME: str = "isochrones"
-STARS_TABLE_NAME: str = "stars"
-STAR_ALIASES_TABLE_NAME: str = "star_aliases"
-PUBLICATION_REFERENCES_TABLE_NAME: str = "publication_references"
+CLUSTERS_TABLE_NAME: str = "clusters"
 DATA_TYPES_TABLE_NAME: str = "data_types"
+ISOCHRONES_TABLE_NAME: str = "isochrones"
+PUBLICATION_REFERENCES_TABLE_NAME: str = "publication_references"
+STAR_ALIASES_TABLE_NAME: str = "star_aliases"
+STARS_TABLE_NAME: str = "stars"
 
 # data records table names
 AD2K_TYPE_TABLE_NAME: str = "CoordinatesJ2000"
