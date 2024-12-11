@@ -1,7 +1,7 @@
 import os
 
 from common.create_sql_insert_methods import write_sql_insert_statement, write_sql_values_keyword_statement, write_sql_values_data_statement
-from common.constants import SQL_STAR_ALIASES_FILE_NAME, STAR_ALIASES_DATA_FOLDER_NAME, TRANS_TAB_FILE, TRANS_REF_FILE, \
+from common.constants import SQL_STAR_ALIASES_TAB_DATA_FILE_NAME, STAR_ALIASES_DATA_FOLDER_NAME, TRANS_TAB_FILE, TRANS_REF_FILE, \
     STAR_ALIASES_TABLE_NAME, ERROR_OUTPUT_FILE_NAME, NO_DATA_WERE_FOUND_SQL_COMMENT, BUFFER_SIZE, \
     CLUSTERS_ORIGIN_FOLDER_NAME, DATA_DESTINATION_FOLDER_NAME
 from common.folder_paths import ORIGIN_FOLDER_PATH, DESTINATION_FOLDER_PATH
@@ -103,7 +103,7 @@ def process_tab_record(
 
         alternative_number = line_tuple[alternative_number_position]
 
-        star_alias = StarAlias(cluster_name, adopted_number, alternative_number, ref_string)
+        star_alias = StarAlias(cluster_name, adopted_number, alternative_number, ref_string, "tab")
         star_aliases.append(star_alias)
 
     return star_aliases
@@ -233,8 +233,9 @@ def main():
         os.makedirs(star_aliases_destination_folder_path, exist_ok=True)
 
     # error destination file
+    error_output_file_name = "-".join(["tab", ERROR_OUTPUT_FILE_NAME])
     error_output_destination_file_path: str = os.path.join(star_aliases_destination_folder_path,
-                                                           ERROR_OUTPUT_FILE_NAME)
+                                                           error_output_file_name)
     with open(error_output_destination_file_path, "wt") as _:
         print(f"Cleaning error file '{error_output_destination_file_path}'.")
 
@@ -244,7 +245,7 @@ def main():
 
     # destination sql file path
     star_aliases_destination_sql_file_path: str = os.path.join(star_aliases_destination_folder_path,
-                                                               SQL_STAR_ALIASES_FILE_NAME)
+                                                               SQL_STAR_ALIASES_TAB_DATA_FILE_NAME)
 
     if (len(cluster_folder_names) == 0):
         with open(star_aliases_destination_sql_file_path, "wt") as star_aliases_destination_sql_file:
@@ -267,7 +268,9 @@ def main():
         for cluster_folder_name in cluster_folder_names:
             trans_ref_origin_file_path: str = os.path.join(clusters_origin_folder_path, cluster_folder_name, TRANS_REF_FILE)
 
-            column_reference_dictionary = process_trans_ref_file(trans_ref_origin_file_path, error_output_destination_file_path)
+            column_reference_dictionary = process_trans_ref_file(
+                trans_ref_origin_file_path,
+                error_output_destination_file_path)
 
             # process further only if there exists any column reference data
             if column_reference_dictionary is None:

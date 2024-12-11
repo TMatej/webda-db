@@ -33,6 +33,9 @@ CLUSTER_PARAMETERS_FILE_NAME: str = "dias.dat"
 # original data file names
 TRANS_TAB_FILE = "trans.tab"
 TRANS_REF_FILE = "trans.ref"
+IDAM_SRV_FILE = "idam.srv"
+IDAM_IDS_FILE = "idam.ids"
+IDAM_CAT_FILE = "idam.cat"
 
 # generic name for files containing error outputs
 ERROR_OUTPUT_FILE_NAME: str = "errors.log"
@@ -52,7 +55,10 @@ SQL_AVATARS_FILE_NAME: str = "avatars.sql"
 SQL_ISOCHRONES_FILE_NAME: str = "isochrones.sql"
 SQL_PUBLICATION_REFERENCES_FILE_NAME: str = "publication-references.sql"
 SQL_STARS_FILE_NAME: str = "stars.sql"
-SQL_STAR_ALIASES_FILE_NAME: str = "star-aliases.sql"
+SQL_STAR_ALIASES_TAB_DATA_FILE_NAME: str = "star-aliases-tab.sql"
+SQL_STAR_ALIASES_IDM_DATA_FILE_NAME: str = "star-aliases-idm.sql"
+SQL_STAR_ALIASES_IDS_DATA_FILE_NAME: str = "star-aliases-ids.sql"
+SQL_STAR_ALIASES_SRV_DATA_FILE_NAME: str = "star-aliases-srv.sql"
 
 #sql column names
 
@@ -64,6 +70,7 @@ SQL_ANGULAR_DIAMETER_COLUMN_NAME: str = "angular_diameter"
 SQL_AUTHOR_COLUMN_NAME: str = "author"
 SQL_BIBCODE_COLUMN_NAME: str = "bibcode"
 SQL_CLUSTER_ID_COLUMN_NAME: str = "cluster_id"
+SQL_DATA_TYPE_ID_COLUMN_NAME: str = "data_type_id"
 SQL_DECLINATION_COLUMN_NAME: str = "declination"
 SQL_DESCRIPTION_COLUMN_NAME: str = "description"
 SQL_DISTANCE_COLUMN_NAME: str = "distance"
@@ -87,6 +94,8 @@ SQL_REF_NUMBER_COLUMN_NAME: str = "ref_number"
 SQL_REF_STRING_COLUMN_NAME: str = "ref_string"
 SQL_REF_STRING_SQUEEZED_COLUMN_NAME: str = "ref_string_squeezed"
 SQL_RIGHT_ASCENSION_COLUMN_NAME: str = "right_ascension"
+SQL_STAR_ALIAS_TYPE_COLUMN_NAME: str = "star_alias_type"
+SQL_STAR_ID_COLUMN_NAME: str = "star_id"
 SQL_TITLE_COLUMN_NAME: str = "title"
 SQL_YEAR_COLUMN_NAME: str = "year"
 
