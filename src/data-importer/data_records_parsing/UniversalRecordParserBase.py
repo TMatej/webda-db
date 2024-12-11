@@ -1,8 +1,8 @@
 import os
 
-from common.InsertLineBuilderBase import InsertLineBuilderBase
-from common.constants import DATA_TYPES_FILE_NAME
-from common.folder_paths import DESTINATION_DATA_FOLDER_PATH
+from common.Sanitizer import Sanitizer
+from common.constants import DATA_TYPES_FILE_NAME, DATA_DESTINATION_FOLDER_NAME
+from common.folder_paths import DESTINATION_FOLDER_PATH
 from data_types_parsing.DataType import DataType
 from data_types_parsing.DataTypesParser import extract_data_type
 
@@ -58,7 +58,7 @@ def process_record(
         file_name: str,
         line: str,
         columns: [str],
-        column_formats: [str]) -> str | None:
+        column_formats: [str]) -> str:
     line_tuple = line.strip("\n").split("\t")
 
     if len(line_tuple) > len(column_formats):
@@ -79,29 +79,30 @@ def process_record(
         column_format: str = column_formats[i]
         column_value: str = line_tuple[i].strip().replace("'", "''")
 
+        column_title: str = columns[i]
+
         # empty value -> NULL
-        if len(column_value) == 0 :
+        if len(column_value) == 0 and not column_title.lower().__eq__('no'):
             line = "".join([line, "NULL"])
             continue
 
         if len(columns) > i:
-            column_title: str = columns[i]
-            if column_title.lower().__eq__('no'):  # adopter number consider as string and remove zeros in the beginning
-                sanitized_value = InsertLineBuilderBase.__sanitize_adopted_number__(column_value)
+            if column_title.lower().__eq__('no'):  # adopter number consider as string
+                sanitized_value = Sanitizer.__sanitize_adopted_number__(column_value)
                 line = "".join([line, sanitized_value])
                 continue
 
         if "d" in column_format or "f" in column_format:
-            sanitized_value = InsertLineBuilderBase.__sanitize_numeric_value__(column_value)
+            sanitized_value = Sanitizer.__sanitize_numeric_value__(column_value)
             line = "".join([line, sanitized_value])
         else:
-            sanitized_value = InsertLineBuilderBase.__sanitize_string_value__(column_value)
+            sanitized_value = Sanitizer.__sanitize_string_value__(column_value)
             line = "".join([line, sanitized_value])
 
-    return line
+    return "".join(["0, 0, ", line])  # data_type_id = 0, cluster_id = 0
 
 def process_data_types() -> [DataType]:
-    source_file = os.path.join(DESTINATION_DATA_FOLDER_PATH, DATA_TYPES_FILE_NAME)
+    source_file = os.path.join(DESTINATION_FOLDER_PATH, DATA_DESTINATION_FOLDER_NAME, DATA_TYPES_FILE_NAME)
 
     data_types: [DataType] = []
 

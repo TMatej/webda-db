@@ -1,5 +1,7 @@
 from decimal import Decimal, InvalidOperation
 
+from pandas.core.construction import sanitize_array
+
 
 class Sanitizer:
     @staticmethod
@@ -15,7 +17,7 @@ class Sanitizer:
             value = value.replace("--", "-")
 
         try:
-            num = str(Decimal(value.strip()))
+            num = str(Decimal(value.strip().lstrip("0")))
         except InvalidOperation:
             print(f"Invalid input: '{value}' cannot convert to integer.")
             # some values have random "/  " with their value
@@ -31,4 +33,9 @@ class Sanitizer:
     @staticmethod
     def __sanitize_adopted_number__(value: str) -> str:
         # some files contain white characters inside their adopted number
-        return Sanitizer.__sanitize_string_value__(value.strip().replace(' ', '0'))
+        sanitized_value = Sanitizer.__sanitize_string_value__(value.strip().replace(' ', '0'))
+
+        if sanitized_value.__eq__("NULL"):
+            raise ValueError("Adopter number is missing")
+
+        return sanitized_value
