@@ -17,7 +17,13 @@ class Sanitizer:
             value = value.replace("--", "-")
 
         try:
-            num = str(Decimal(value.strip().lstrip("0")))
+            stripped_value = value.strip()
+            zero_stripped = stripped_value.lstrip("0")
+
+            if zero_stripped == "" and len(stripped_value) != len(zero_stripped):
+                num = str(0)
+            else:
+                num = str(Decimal(zero_stripped))
         except InvalidOperation:
             print(f"Invalid input: '{value}' cannot convert to integer.")
             # some values have random "/  " with their value
