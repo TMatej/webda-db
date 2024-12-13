@@ -26,7 +26,11 @@ class StarAlias(InsertLineBuilderBase):
         sanitized_adopted_number = Sanitizer.__sanitize_adopted_number__(self.adopted_number)
         sanitized_alternative_number = Sanitizer.__sanitize_adopted_number__(self.alternative_number)
         sanitized_ref_string = Sanitizer.__sanitize_string_value__(self.ref_string)
-        sanitized_ref_string_squeezed = re.sub(r"\s+", "", sanitized_ref_string)
+        x = re.search(r"(\d+,? \d+).*", sanitized_ref_string)
+        if x is not None:
+            sanitized_ref_string_squeezed = Sanitizer.__sanitize_string_value__(x.group(1))
+        else:
+            sanitized_ref_string_squeezed = "NULL"
         sanitized_star_alias_type = Sanitizer.__sanitize_string_value__(self.star_alias_type)
 
         return  f"(0, {sanitized_folder_name}, {sanitized_adopted_number}, {sanitized_alternative_number}, {sanitized_ref_string}, {sanitized_ref_string_squeezed}, {sanitized_star_alias_type})"
