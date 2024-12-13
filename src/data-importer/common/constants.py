@@ -100,7 +100,7 @@ SQL_TITLE_COLUMN_NAME: str = "title"
 SQL_PUBLICATION_YEAR_COLUMN_NAME: str = "publication_year"
 
 ## isochrones
-SQL_ISOCHRONE_TYPE_COLUMN_NAME: str = "type"
+SQL_ISOCHRONE_TYPE_COLUMN_NAME: str = "isochrone_type"
 SQL_LOGT_COLUMN_NAME: str = "log_t"
 SQL_MV_COLUMN_NAME: str = "mv"
 SQL_MBV_COLUMN_NAME: str = "mbv"
