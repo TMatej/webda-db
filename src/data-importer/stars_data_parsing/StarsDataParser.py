@@ -94,7 +94,7 @@ def get_adopted_numbers_from_file(data_file_origin_file_path):
             else:
                 adopted_number, _ = split_line
 
-            adopted_numbers_set.add(adopted_number)
+            adopted_numbers_set.add(adopted_number.strip())
 
     return adopted_numbers_set
 
@@ -218,6 +218,9 @@ def main():
         # per each cluster
         for cluster_folder_name in cluster_folder_names:
             adopted_star_numbers: [] = set()
+
+            if cluster_folder_name.__eq__("ale01"):
+                print("ale01")
 
             for data_file_name in data_files_names_set:
                 data_origin_file_path = os.path.join(clusters_origin_folder_path, cluster_folder_name, data_file_name)

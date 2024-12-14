@@ -112,7 +112,7 @@ def process_file(
                 if not star_alias.adopted_number:
                     continue
 
-                if not star_alias.alternative_number:
+                if not star_alias.alternative_number.strip():
                     continue
 
                 if comma_shall_be_writen[0]:
