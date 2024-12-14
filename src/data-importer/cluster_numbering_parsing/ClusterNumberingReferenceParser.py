@@ -6,7 +6,7 @@ from common.constants import NO_DATA_WERE_FOUND_SQL_COMMENT, ERROR_OUTPUT_FILE_N
     NUMBERING_SYSTEM_FILE_NAME, CLUSTER_NUMBERINGS_TABLE_NAME, DATA_DESTINATION_FOLDER_NAME, \
     REFERENCES_ORIGIN_FOLDER_NAME
 from common.folder_paths import DESTINATION_FOLDER_PATH, ORIGIN_FOLDER_PATH
-from AdoptedNumberReference import AdoptedNumberReference
+from ClusterNumberingReference import ClusterNumberingReference
 
 def check_standard(numbering_system_origin_file):
     first_data_line = numbering_system_origin_file.readline().strip()
@@ -91,7 +91,10 @@ def process_numbering_system_data_file(
             return
 
         # process record in the file
+        _ = numbering_system_origin_file.readline() # first line
+        _ = numbering_system_origin_file.readline() # second line
 
+        lastly_parsed_cluster = ""
         while True:
             # collect record properties
             first_record_line = numbering_system_origin_file.readline()
@@ -110,32 +113,85 @@ def process_numbering_system_data_file(
             if len(second_parts) < 2:
                 continue
 
-            if second_parts[0].strip() != first_parts[0].strip():
+            if not second_parts[0].strip().__eq__(first_parts[0].strip()):
+                lastly_parsed_cluster = move_to_matching_pair(
+                    adopted_numbers_reference_destination_sql_file,
+                    numbering_system_origin_file,
+                    second_parts,
+                    lastly_parsed_cluster,
+                    comma_shall_be_writen)
                 continue
 
-            adopted_number_reference = AdoptedNumberReference(
-                first_parts[0],
-                second_parts[1],
-                first_parts[1])
+            lastly_parsed_cluster = write_to_file(
+                adopted_numbers_reference_destination_sql_file,
+                first_parts,
+                second_parts,
+                lastly_parsed_cluster,
+                comma_shall_be_writen)
 
-            if comma_shall_be_writen[0]:
-                # write insert command to file
-                adopted_numbers_reference_destination_sql_file.write(",\n")
+def move_to_matching_pair(
+        adopted_numbers_reference_destination_sql_file,
+        numbering_system_origin_file,
+        second_parts,
+        lastly_parsed_cluster,
+        comma_shall_be_writen) -> str:
+    first_parts = second_parts
+    second_record_line = numbering_system_origin_file.readline()
+    second_parts = second_record_line.split("\t")
 
-            comma_shall_be_writen[0] = True
+    if len(second_parts) < 2:
+        return lastly_parsed_cluster
 
-            # create and write VALUES part of SQL insert command for CLUSTERS file
-            write_sql_values_data_statement(adopted_numbers_reference_destination_sql_file, adopted_number_reference)
+    if not second_parts[0].strip().__eq__(first_parts[0].strip()):
+        return move_to_matching_pair(adopted_numbers_reference_destination_sql_file,
+             numbering_system_origin_file,
+             second_parts,
+             lastly_parsed_cluster,
+             comma_shall_be_writen)
+
+    return write_to_file(
+        adopted_numbers_reference_destination_sql_file,
+        first_parts,
+        second_parts,
+        lastly_parsed_cluster,
+        comma_shall_be_writen)
+
+
+def write_to_file(
+    adopted_numbers_reference_destination_sql_file,
+    first_parts,
+    second_parts,
+    lastly_parsed_cluster: str,
+    comma_shall_be_writen):
+    if lastly_parsed_cluster.__eq__(first_parts[0].strip()): # cluster already parsed and first value was taken
+        return lastly_parsed_cluster
+
+    lastly_parsed_cluster = first_parts[0].strip()
+
+    adopted_number_reference = ClusterNumberingReference(
+        first_parts[0],
+        second_parts[1],
+        first_parts[1])
+
+    if comma_shall_be_writen[0]:
+        # write insert command to file
+        adopted_numbers_reference_destination_sql_file.write(",\n")
+
+    comma_shall_be_writen[0] = True
+
+    # create and write VALUES part of SQL insert command for CLUSTERS file
+    write_sql_values_data_statement(adopted_numbers_reference_destination_sql_file, adopted_number_reference)
+    return lastly_parsed_cluster
 
 
 def main():
     # check folder path existence and create folder on path if it does not exist yet
-    adopted_numbers_reference_destination_sql_folder_path: str = os.path.join(DESTINATION_FOLDER_PATH, DATA_DESTINATION_FOLDER_NAME, CLUSTER_NUMBERINGS_FOLDER_NAME)
-    if not os.path.exists(adopted_numbers_reference_destination_sql_folder_path):
-        os.makedirs(adopted_numbers_reference_destination_sql_folder_path, exist_ok=True)
+    cluster_numbering_reference_destination_sql_folder_path: str = os.path.join(DESTINATION_FOLDER_PATH, DATA_DESTINATION_FOLDER_NAME, CLUSTER_NUMBERINGS_FOLDER_NAME)
+    if not os.path.exists(cluster_numbering_reference_destination_sql_folder_path):
+        os.makedirs(cluster_numbering_reference_destination_sql_folder_path, exist_ok=True)
 
     # error destination file path
-    error_output_destination_file_path: str = os.path.join(adopted_numbers_reference_destination_sql_folder_path,
+    error_output_destination_file_path: str = os.path.join(cluster_numbering_reference_destination_sql_folder_path,
                                                            ERROR_OUTPUT_FILE_NAME)
     with open(error_output_destination_file_path, "wt") as _:
         print(f"Cleaning error file '{error_output_destination_file_path}'.")
@@ -144,19 +200,19 @@ def main():
     numbering_system_origin_file_path = os.path.join(ORIGIN_FOLDER_PATH, REFERENCES_ORIGIN_FOLDER_NAME, NUMBERING_SYSTEM_FILE_NAME)
 
     # destination sql file path
-    adopted_numbers_reference_destination_sql_file_path: str = os.path.join(adopted_numbers_reference_destination_sql_folder_path, SQL_CLUSTER_NUMBERINGS_FILE_NAME)
+    cluster_numbering_reference_destination_sql_file_path: str = os.path.join(cluster_numbering_reference_destination_sql_folder_path, SQL_CLUSTER_NUMBERINGS_FILE_NAME)
 
     # CHECK
     if not os.path.exists(numbering_system_origin_file_path):
-        with open(adopted_numbers_reference_destination_sql_file_path, "wt") as adopted_numbers_reference_destination_sql_file:
+        with open(cluster_numbering_reference_destination_sql_file_path, "wt") as adopted_numbers_reference_destination_sql_file:
             adopted_numbers_reference_destination_sql_file.write(NO_DATA_WERE_FOUND_SQL_COMMENT)
         return
 
     comma_shall_be_writen: [bool] = [False]
 
-    with open(adopted_numbers_reference_destination_sql_file_path, "wt", buffering=BUFFER_SIZE) as adopted_numbers_reference_destination_sql_file:
+    with open(cluster_numbering_reference_destination_sql_file_path, "wt", buffering=BUFFER_SIZE) as adopted_numbers_reference_destination_sql_file:
         # create and write INSERT part of SQL insert command
-        adopted_numbers_references_table_parameters = AdoptedNumberReference.get_table_parameters()
+        adopted_numbers_references_table_parameters = ClusterNumberingReference.get_table_parameters()
         write_sql_insert_statement(adopted_numbers_reference_destination_sql_file, CLUSTER_NUMBERINGS_TABLE_NAME,
                                    adopted_numbers_references_table_parameters)
 
@@ -175,7 +231,7 @@ def main():
 
     if not comma_shall_be_writen[0]:
         # remove file contents as no data were found
-        with open(adopted_numbers_reference_destination_sql_file_path, "wt") as adopted_numbers_reference_destination_sql_file:
+        with open(cluster_numbering_reference_destination_sql_file_path, "wt") as adopted_numbers_reference_destination_sql_file:
             adopted_numbers_reference_destination_sql_file.write(NO_DATA_WERE_FOUND_SQL_COMMENT)
 
 
