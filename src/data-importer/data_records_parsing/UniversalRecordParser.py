@@ -2,12 +2,12 @@ import os
 
 from common.constants import SQL_FILE_SUFFIX, DATA_RECORDS_DATA_FOLDER_NAME, ERROR_OUTPUT_FILE_NAME, \
     NO_DATA_WERE_FOUND_SQL_COMMENT, DATA_TYPES_PROCESSED_NAMES_FILE_NAME, BUFFER_SIZE, SQL_FILE_NAME_COLUMN_NAME, \
-    SQL_FOLDER_NAME_COLUMN_NAME, CLUSTERS_ORIGIN_FOLDER_NAME, DATA_DESTINATION_FOLDER_NAME, SQL_CLUSTER_ID_COLUMN_NAME, \
-    SQL_DATA_TYPE_ID_COLUMN_NAME
+    SQL_FOLDER_NAME_COLUMN_NAME, CLUSTERS_ORIGIN_FOLDER_NAME, DATA_DESTINATION_FOLDER_NAME, \
+    SQL_DATA_TYPE_ID_COLUMN_NAME, SQL_STAR_ID_COLUMN_NAME
 from common.create_sql_insert_methods import write_sql_insert_statement, write_sql_values_keyword_statement
 from common.folder_paths import ORIGIN_FOLDER_PATH, DESTINATION_FOLDER_PATH
 from UniversalRecordParserBase import process_record, check_record_file_structure, \
-    process_data_types
+    process_data_types, sanitize_and_map_column, sanitize_table_name
 from data_types_parsing.DataType import DataType
 
 def process_records_of_data_type(
@@ -147,7 +147,7 @@ def main():
             return
 
         file_name, file_extension =  os.path.splitext(data_type.file_name)
-        data_type_table_name = file_name.lower() + file_extension.lower().replace(".", "_")
+        data_type_table_name = sanitize_table_name(file_name, file_extension)
 
         columns: [str] = data_type.cols.strip().split("\\t")
         columns_formats: [str] = data_type.format.strip().split()
@@ -159,11 +159,12 @@ def main():
                 error_output_destination_file.write(message)
             continue
 
-        processed_columns: list = list(map(lambda x: x.strip().lower(), columns))
-        processed_columns.insert(0, SQL_FILE_NAME_COLUMN_NAME)       # add origin filename to db columns
-        processed_columns.insert(0, SQL_FOLDER_NAME_COLUMN_NAME)     # add origin foldername to db columns
-        processed_columns.insert(0, SQL_DATA_TYPE_ID_COLUMN_NAME)     # add data type id column name
-        processed_columns.insert(0, SQL_CLUSTER_ID_COLUMN_NAME)     # add cluster id column name
+        columns.insert(0, SQL_FILE_NAME_COLUMN_NAME)       # add origin filename to db columns
+        columns.insert(0, SQL_FOLDER_NAME_COLUMN_NAME)     # add origin foldername to db columns
+        columns.insert(0, SQL_DATA_TYPE_ID_COLUMN_NAME)     # add data type id column name
+        columns.insert(0, SQL_STAR_ID_COLUMN_NAME)     # add star id column name
+
+        processed_columns: list = list(map(lambda x: sanitize_and_map_column(x), columns))
 
         data_type_table_parameters: str = ", ".join(processed_columns)
 
@@ -205,6 +206,7 @@ def main():
         processed_data_types_names.append(data_type_file_name)
         with open(processed_data_files_path, "at") as processed_data_types_file:
             processed_data_types_file.write(data_type_file_name + "\n")
+
 
 if __name__ == '__main__':
     main()

@@ -1,7 +1,8 @@
 import os
 
 from common.Sanitizer import Sanitizer
-from common.constants import DATA_TYPES_FILE_NAME, DATA_DESTINATION_FOLDER_NAME
+from common.constants import DATA_TYPES_FILE_NAME, DATA_DESTINATION_FOLDER_NAME, SQL_ADOPTED_NUMBER_COLUMN_NAME, \
+    SQL_REF_NUMBER_COLUMN_NAME
 from common.folder_paths import DESTINATION_FOLDER_PATH
 from data_types_parsing.DataType import DataType
 from data_types_parsing.DataTypesParser import extract_data_type
@@ -116,3 +117,24 @@ def process_data_types() -> [DataType]:
             data_types.append(data_type)
 
     return data_types
+
+
+def sanitize_table_name(file_name: str, file_extension: str) -> str:
+    stripped: str = file_name.lower() + file_extension.lower().replace(".", "_")
+    sanitized_name: str = "`" + stripped + "`"
+
+    return sanitized_name
+
+
+def sanitize_and_map_column(column: str) -> str:
+    stripped_column: str = column.strip().lower()
+
+    if stripped_column.__eq__("no"):
+        stripped_column = SQL_ADOPTED_NUMBER_COLUMN_NAME
+
+    elif stripped_column.__eq__("ref"):
+        stripped_column = SQL_REF_NUMBER_COLUMN_NAME
+
+    sanitized_column = "`" + stripped_column + "`"
+
+    return sanitized_column
