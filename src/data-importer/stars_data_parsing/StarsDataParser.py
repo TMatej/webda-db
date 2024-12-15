@@ -45,7 +45,6 @@ def get_data_types_names(data_file_reference_file_source_path: str) -> set:
 
     # remove types without star data -> based on "types_excluded_from_processing.txt" file
     data_files_names_set.remove("lyn.dat")
-    data_files_names_set.remove("trans.tab")
     data_files_names_set.remove("trans.ref")
     data_files_names_set.remove("bdp.cat")
     data_files_names_set.remove("br.cmd")
@@ -219,10 +218,12 @@ def main():
         for cluster_folder_name in cluster_folder_names:
             adopted_star_numbers: [] = set()
 
-            if cluster_folder_name.__eq__("ale01"):
-                print("ale01")
+            if cluster_folder_name.__eq__("am02"):
+                print("am02")
 
             for data_file_name in data_files_names_set:
+                if data_file_name == "trans.ref":
+                    print("a")
                 data_origin_file_path = os.path.join(clusters_origin_folder_path, cluster_folder_name, data_file_name)
                 adopted_star_numbers_from_file = get_adopted_numbers_from_file(data_origin_file_path)
                 adopted_star_numbers = adopted_star_numbers.union(adopted_star_numbers_from_file)
